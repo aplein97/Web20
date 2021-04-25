@@ -1,0 +1,12 @@
+{
+  "name": "InterAccountBot",
+  "displayName": "InterAccountBot",
+  "expo": {
+    "name": "InterAccountBot",
+    "slug": "InterAccountBot",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
