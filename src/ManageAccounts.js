@@ -14,7 +14,7 @@ import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 //const appId = "1047121222092614"
 
-const PostScreen = ({ navigation }) => {
+const ManageAccountsScreen = ({ navigation }) => {
   const [hasOpacity, setHasOpacity] = React.useState(false);
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -62,4 +62,4 @@ const PostScreen = ({ navigation }) => {
     </View>
   );
 };
-export default PostScreen;
+export default ManageAccountsScreen;
