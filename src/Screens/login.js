@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import styles from "./style";
+import styles from "../style";
 import {
   Keyboard,
   Text,
@@ -12,13 +12,9 @@ import {
 } from "react-native";
 import { Button } from "react-native-elements";
 
-const appId = "1047121222092614";
-
+//von Login zu ManageAccounts oder Home
 const LoginScreen = ({ navigation }) => {
-  this.state = {
-    UserID: "",
-    UserPassword: "",
-  };
+
   return (
     <KeyboardAvoidingView style={styles.containerView} behavior="padding">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -29,19 +25,19 @@ const LoginScreen = ({ navigation }) => {
               placeholder="Username"
               placeholderColor="#c4c3cb"
               style={styles.loginFormTextInput}
-              onChangeText={(UserID) => this.setState({ UserID })}
+              onChangeText={(console.log("Hi"))}
             />
             <TextInput
               placeholder="Password"
               placeholderColor="#c4c3cb"
               style={styles.loginFormTextInput}
               secureTextEntry={true}
-              onChangeText={(UserPassword) => this.setState({ UserPassword })}
+              onChangeText={(console.log("Hi"))}
             />
 
             <Button
               buttonStyle={styles.loginButton}
-              onPress={() => navigation.navigate("Post")}
+              onPress={() => navigation.immediatelyResetStack(['Home'], 0)}
               title="Login"
             />
           </View>

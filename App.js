@@ -4,12 +4,13 @@ import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import { StyleSheet, Text, View } from "react-native";
 import styles from "./src/style";
 
-import StartScreen from "./src/Start";
-import LoginScreen from "./src/login";
-import PostScreen from "./src/post";
-import CreateAccountScreen from "./src/createAccount";
-import ManageAccountsScreen from "./src/ManageAccounts";
-import Settings from "./src/settings";
+import StartScreen from "./src/Screens/Start";
+import LoginScreen from "./src/Screens/login";
+import PostScreen from "./src/Screens/post";
+import CreateAccountScreen from "./src/Screens/createAccount";
+import ManageAccountsScreen from "./src/Screens/ManageAccounts";
+import Settings from "./src/Screens/settings";
+import HomeScreen from "./src/Screens/Home";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -22,7 +23,7 @@ const App = () => {
     <PaperProvider>
       <NavigationContainer style={styles.container}>
         <Stack.Navigator
-          initialRouteName="Post"
+          initialRouteName="Start"
           screenOptions={{
             header: (props) => <CustomNavigationBar {...props} />,
           }}
@@ -31,6 +32,11 @@ const App = () => {
             // unser 1. Screen mit Logo und Login oder erstelle Account
             name="Start"
             component={StartScreen}
+            //options={{ title: 'Welcome' }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
             //options={{ title: 'Welcome' }}
           />
           <Stack.Screen

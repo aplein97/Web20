@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from "./style";
+//import styles from "../style";
 import {
   Keyboard,
   Text,
@@ -9,9 +9,7 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from "react-native";
-import { Button } from "react-native-elements";
-import { TouchableOpacity } from "react-native";
-import { Image } from "react-native";
+
 //const appId = "1047121222092614"
 
 const Settings = ({ navigation }) => {

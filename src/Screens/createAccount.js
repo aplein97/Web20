@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from "./style";
+import styles from "../style";
 import {
   Keyboard,
   Text,
@@ -10,10 +10,13 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Button } from "react-native-elements";
-import { TouchableOpacity } from "react-native";
 
+//von createAccount zu Login
 const CreateAccountScreen = ({ navigation }) => {
-  const [hasOpacity, setHasOpacity] = React.useState(false);
+  const [UserID, setUserID] = React.useState();
+  const [Mail, setMail] = React.useState();
+  const [Password, setPassword] = React.useState(); 
+
   return (
     <KeyboardAvoidingView style={styles.containerView} behavior="padding">
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -24,25 +27,25 @@ const CreateAccountScreen = ({ navigation }) => {
             placeholder="Name"
             placeholderColor="#c4c3cb"
             style={styles.loginFormTextInput}
-            onChangeText={(UserID) => this.setState({ UserID })}
+            onChangeText={(UserID) => setUserID({ UserID })}
           />
           <TextInput
             placeholder="E-Mail"
             placeholderColor="#c4c3cb"
             style={styles.loginFormTextInput}
-            onChangeText={(Mail) => this.setState({ Mail })}
+            onChangeText={(Mail) => setMail({ Mail })}
           />
           <TextInput
             placeholder="Password"
             placeholderColor="#c4c3cb"
             style={styles.loginFormTextInput}
             secureTextEntry={true}
-            onChangeText={(UserPassword) => this.setState({ UserPassword })}
+            onChangeText={(UserPassword) => setPassword({ UserPassword })}
           />
 
           <Button
             buttonStyle={styles.loginButton}
-            onPress={() => navigation.navigate("Post")}
+            onPress={() => navigation.navigate("Login")}
             title="Account erstellen"
           />
         </View>
