@@ -1,6 +1,5 @@
 # Web20
-=======
-#How to start
+# How to start
 - git clone 
 - git checkout yourBranch
 
