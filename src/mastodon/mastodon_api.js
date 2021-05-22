@@ -68,18 +68,34 @@ class MastApi {
       });
   }
 
-  toot(message) {
+  toot(
+    message,
+    img_path = "",
+    sensitive = false,
+    spoiler_text = "",
+    visibility = "",
+    in_reply_to_id = ""
+  ) {
     params = {
-      status: message
-    };
-    this.mast.post('statuses', params, (err, data) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log(data);
-      }
-    })
+      status: message,
+      sensitive: sensitive,
+      spoiler_text: spoiler_text,
+      visibility: visibility,
+      in_reply_to_id: in_reply_to_id
+    }
+
+    if (img_path === "") {
+      this.mast.post('statuses', params, callback);
+    } else {
+      this.mast.post('media', { file: fs.createReadStream(img_path) }, callback)
+      .then(resp => {
+        img_id = resp.data.id;
+        params["media_ids"] = [img_id];
+        this.mast.post('statuses', params, callback);
+      })
+    }
   }
+
 
   getAccessToken() {
     return this.accessToken;
@@ -94,6 +110,14 @@ class MastApi {
       console.error("Given instance URL has no valid syntax! Required form: \"foo.bar\"");
     }
     this.instanceUrl = instance_url;
+  }
+
+  #callback(data, error) {
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(data);
+    }
   }
 }
 module.exports.MastApi = MastApi;
