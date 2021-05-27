@@ -16,7 +16,7 @@ import { Image } from "react-native";
 
 const StartScreen = ({ navigation }) => {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#ffffff", }}>
       <Button
         buttonStyle={styles.loginButton}
         onPress={() => navigation.navigate("Login")}

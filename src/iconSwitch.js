@@ -18,7 +18,7 @@ const IconSwitch = ({ source, isEnabled, toggleSwitch, switchID }) => {
     <View style={{ flexDirection: "row" }}>
       <View>
         <Image
-          style={{ height: 50, width: 50, opacity: isEnabled ? 1.0 : 0.4 }}
+          style={{ height: 40, width: 40, resizeMode: "contain", marginLeft: 20, opacity: isEnabled ? 1.0 : 0.2 }}
           source={source}
         />
       </View>
@@ -29,8 +29,8 @@ const IconSwitch = ({ source, isEnabled, toggleSwitch, switchID }) => {
         }}
       >
         <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+          trackColor={{ false: "#E0E0E0", true: "#EDA83A" }}
+          thumbColor={isEnabled ? "#fff" : "#fff"}
           onValueChange={() => toggleSwitch(switchID)}
           value={isEnabled}
         />

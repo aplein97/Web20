@@ -37,10 +37,10 @@ const PostScreen = ({ navigation }) => {
   //const [textLength, setTextLength] = maxLength - currentLength ;
   // const [value, onChangeText] = React.useState();
   return (
-    <ScrollView>
-      <View style={{ flexDirection: "column", padding: 28 }}>
-        <View style={{ alignSelf: "center", marginBottom: 32 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+    <ScrollView style={{ backgroundColor: "#ffffff", }}>
+      <View style={{ flexDirection: "column", padding: 28,}}>
+        <View style={{ marginBottom: 32 }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#272727", }}>
             Post verfassen
           </Text>
         </View>
@@ -57,7 +57,7 @@ const PostScreen = ({ navigation }) => {
           <View>
             <IconSwitch
               toggleSwitch={toggleSwitch}
-              source={require("../images/instagram.png")}
+              source={require("../images/twitter.png")}
               isEnabled={isEnabled.switch1}
               switchID="switch1"
             />
@@ -73,7 +73,7 @@ const PostScreen = ({ navigation }) => {
           <View>
             <IconSwitch
               toggleSwitch={toggleSwitch}
-              source={require("../images/twitter.png")}
+              source={require("../images/mastodon.png")}
               isEnabled={isEnabled.switch3}
               switchID="switch3"
             />
@@ -85,16 +85,18 @@ const PostScreen = ({ navigation }) => {
             height: 100,
             width: "100%",
             borderWidth: 0.5,
-            borderRadius: 4,
+            borderRadius: 17,
             padding: 4,
             alignSelf: "center",
+            borderColor: "#F7E2D2",
           }}
         >
           <TextInput
             onChangeText={(text) => setText(text)}
             value={text}
             maxLength={maxLength}
-            placeholder="Caption"
+            placeholder="Caption eingeben..."
+            style={{paddingLeft: 20,}}
           />
         </View>
         <View style={{ marginBottom: 32 }}>

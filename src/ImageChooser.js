@@ -1,6 +1,9 @@
 import React from "react";
-import { View, Text, Image, Button } from "react-native";
+import { View, Text, Image } from "react-native";
+import styles from "../src/style";
 import * as ImagePicker from "expo-image-picker";
+import { Button } from "react-native-elements";
+import { TouchableOpacity } from "react-native";
 
 const ImageChooser = () => {
   const [image, setImage] = React.useState(null);
@@ -17,8 +20,16 @@ const ImageChooser = () => {
       }
     })();
   }, []);*/
+  
+  const showImagePicker = async () => {
+    // Ask the user for the permission to access the media library 
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-  const pickImage = async () => {
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this app to access your photos!");
+      return;
+    }
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -26,12 +37,39 @@ const ImageChooser = () => {
       quality: 1,
     });
 
+    // Explore the result
     console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);
+      console.log(result.uri);
     }
-  };
+  }
+
+  const openCamera = async () => {
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this app to access your camera!");
+      return;
+    }
+
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    // Explore the result
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+      console.log(result.uri);
+    }
+  }
 
   return (
     <View
@@ -40,8 +78,17 @@ const ImageChooser = () => {
         alignItems: "center",
       }}
     >
-      <View style={{ marginBottom: 8 }}>
-        <Button title="Foto hochladen" onPress={pickImage} />
+      <View style={{ marginBottom: 15 }}>
+        <Button 
+          title="Foto hochladen"
+          onPress={showImagePicker}
+          buttonStyle={styles.cameraButton}
+        />
+        <Button 
+          title="Foto aufnehmen"
+          onPress={openCamera}
+          buttonStyle={styles.cameraButton}
+        />
       </View>
       {image ? (
         <View>
@@ -49,7 +96,7 @@ const ImageChooser = () => {
         </View>
       ) : (
         <View
-          style={{ backgroundColor: "lightgrey", width: 200, height: 200 }}
+          style={{ backgroundColor: "white", borderColor: "#E0E0E0", borderWidth: 0.5, width: 200, height: 200, borderRadius: 17, }}
         ></View>
       )}
     </View>

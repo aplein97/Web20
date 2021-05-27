@@ -6,7 +6,7 @@ const { StyleSheet } = React;
 export default {
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -15,7 +15,7 @@ export default {
   },
   loginScreenContainer: {
     flex: 1,
-    //backgroundColor: '#'
+    backgroundColor: '#F7E2D2',
   },
   logoText: {
     fontSize: 40,
@@ -30,22 +30,34 @@ export default {
   loginFormTextInput: {
     height: 43,
     fontSize: 14,
-    borderRadius: 5,
+    borderRadius: 17,
     borderWidth: 1,
-    borderColor: "#eaeaea",
+    borderColor: "#E0E0E0",
     backgroundColor: "#fafafa",
-    paddingLeft: 10,
+    paddingLeft: 15,
     marginLeft: 15,
     marginRight: 15,
     marginTop: 5,
     marginBottom: 5,
   },
   loginButton: {
-    backgroundColor: "#3897f1",
-    borderRadius: 5,
+    backgroundColor: "#EDA83A",
+    borderRadius: 17,
     height: 45,
-    // marginTop: 10,
+    marginTop: 10,
+    marginLeft: 15,
+    marginRight: 15,
   },
+
+  cameraButton: {
+    backgroundColor: "#EDA83A",
+    borderRadius: 17,
+    height: 45,
+    marginTop: 10,
+    marginLeft: 15,
+    marginRight: 15,
+  },
+
   /* iconify: {
     height: 55,
     width: 55,

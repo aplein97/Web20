@@ -8,15 +8,15 @@ function CustomNavigationBar({ navigation, previous }) {
   const closeMenu = () => setVisible(false);
 
   return (
-    <Appbar.Header>
+    <Appbar.Header style={{backgroundColor: '#ffffff', boxShadow: "none", marginTop: 7,}}>
       {previous & Appbar.name != 'Logout' ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-      <Appbar.Content title="Megaphone" />
+      <Appbar.Content title="Megafon" color="#272727" />
       {(
         <Menu
           visible={visible}
           onDismiss={closeMenu}
           anchor={
-            <Appbar.Action icon="menu" color="white" onPress={openMenu} />
+            <Appbar.Action icon="menu" color="#272727" onPress={openMenu} />
           }
         >
           <Menu.Item
