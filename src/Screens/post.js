@@ -20,9 +20,9 @@ import { ScrollView } from "react-native";
 
 const PostScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = React.useState({
-    switch1: false,
-    switch2: false,
-    switch3: false,
+    twitterSwitch: false,
+    steemitSwitch: false,
+    mastodonSwitch: false,
   });
 
   const toggleSwitch = (switchID) => {
@@ -33,9 +33,43 @@ const PostScreen = ({ navigation }) => {
 
   const maxLength = 250;
   const [text, setText] = React.useState("");
+  const [url, setUrl] = React.useState("");
   //const [currentLength, setCurrentLength] = React.useState(0);
   //const [textLength, setTextLength] = maxLength - currentLength ;
   // const [value, onChangeText] = React.useState();
+
+  function sendData() {
+    var img = {
+      imgUrl : url,
+    };
+
+    var caption = {
+        captionContent : text,
+    };
+
+    var network = {
+      chosenNetworks : isEnabled,
+    };
+    
+    var fdata = new FormData();
+    fdata.append('caption', {
+        "string": JSON.stringify(caption),
+        type: 'application/json'
+    });
+    
+    fdata.append('img', {
+        "string": JSON.stringify(img),
+        type: 'application/json'
+    });
+
+    fdata.append('network', {
+      "string": JSON.stringify(network),
+      type: 'application/json'
+    });
+    console.log(img);
+    console.log(caption);
+    console.log(network);
+  }
   return (
     <ScrollView style={{ backgroundColor: "#ffffff", }}>
       <View style={{ flexDirection: "column", padding: 28,}}>
@@ -44,9 +78,9 @@ const PostScreen = ({ navigation }) => {
             Post verfassen
           </Text>
         </View>
-        <View style={{ marginBottom: 48 }}>
+        {/* <View style={{ marginBottom: 48 }}>
           <ImageChooser />
-        </View>
+        </View> */}
         <View
           style={{
             marginBottom: 24,
@@ -58,26 +92,44 @@ const PostScreen = ({ navigation }) => {
             <IconSwitch
               toggleSwitch={toggleSwitch}
               source={require("../images/twitter.png")}
-              isEnabled={isEnabled.switch1}
-              switchID="switch1"
+              isEnabled={isEnabled.twitterSwitch}
+              switchID="twitterSwitch"
             />
           </View>
           <View>
             <IconSwitch
               toggleSwitch={toggleSwitch}
               source={require("../images/steemit.png")}
-              isEnabled={isEnabled.switch2}
-              switchID="switch2"
+              isEnabled={isEnabled.steemitSwitch}
+              switchID="steemitSwitch"
             />
           </View>
           <View>
             <IconSwitch
               toggleSwitch={toggleSwitch}
               source={require("../images/mastodon.png")}
-              isEnabled={isEnabled.switch3}
-              switchID="switch3"
+              isEnabled={isEnabled.mastodonSwitch}
+              switchID="mastodonSwitch"
             />
           </View>
+        </View>
+        <View
+          style={{
+            marginBottom: 8,
+            width: "100%",
+            borderWidth: 0.5,
+            borderRadius: 17,
+            padding: 4,
+            alignSelf: "center",
+            borderColor: "#F7E2D2",
+          }}
+        >
+          <TextInput
+              onChangeText={(url) => setUrl(url)}
+              value={url}
+              placeholder="Bild-URL eingeben..."
+              style={{paddingLeft: 20,}}
+            />
         </View>
         <View
           style={{
@@ -107,7 +159,7 @@ const PostScreen = ({ navigation }) => {
             title="Posten"
             buttonStyle={styles.loginButton}
             onPress={() => {
-              console.log("Bild posten");
+              sendData();
             }}
           />
         </View>
