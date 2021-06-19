@@ -22,9 +22,9 @@ const CreateAccountScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.loginScreenContainer}>
         <View style={styles.loginFormView}>
-          <Text style={styles.logoText}>InterAccountBot</Text>
+          <Text style={styles.logoText}>Neuen Megafon-Account erstellen</Text>
           <TextInput
-            placeholder="Name"
+            placeholder="Username"
             placeholderColor="#c4c3cb"
             style={styles.loginFormTextInput}
             onChangeText={(UserID) => setUserID({ UserID })}
@@ -36,11 +36,18 @@ const CreateAccountScreen = ({ navigation }) => {
             onChangeText={(Mail) => setMail({ Mail })}
           />
           <TextInput
-            placeholder="Password"
+            placeholder="Passwort eingeben"
             placeholderColor="#c4c3cb"
             style={styles.loginFormTextInput}
             secureTextEntry={true}
-            onChangeText={(UserPassword) => setPassword({ UserPassword })}
+            //onChangeText={(UserPassword) => setPassword({ UserPassword })}
+          />
+          <TextInput
+            placeholder="Passwort bestätigen"
+            placeholderColor="#c4c3cb"
+            style={styles.loginFormTextInput}
+            secureTextEntry={true}
+            //onChangeText={(UserPassword) => setPassword({ UserPassword })}
           />
 
           <Button
