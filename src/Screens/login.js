@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
-            <Text style={styles.logoText}>InterAccountBot</Text>
+            <Text style={styles.logoText}>Login</Text>
             <TextInput
               placeholder="Username"
               placeholderColor="#c4c3cb"
@@ -28,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
               onChangeText={(console.log("Hi"))}
             />
             <TextInput
-              placeholder="Password"
+              placeholder="Passwort"
               placeholderColor="#c4c3cb"
               style={styles.loginFormTextInput}
               secureTextEntry={true}

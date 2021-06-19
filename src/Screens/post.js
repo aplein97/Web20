@@ -14,6 +14,7 @@ import { TouchableOpacity } from "react-native";
 import { Image, Switch } from "react-native";
 
 import IconSwitch from "../iconSwitch";
+import AdvertiseSwitch from "../advertiseSwitch";
 import ImageChooser from "../ImageChooser";
 import { ScrollView } from "react-native";
 //const appId = "1047121222092614"
@@ -25,15 +26,27 @@ const PostScreen = ({ navigation }) => {
     mastodonSwitch: false,
   });
 
+  const [isAdvertising, setIsAdvertising] = React.useState({
+    advertiseSwitch: false,
+  });
+
   const toggleSwitch = (switchID) => {
     const newSwitchID = !isEnabled[switchID];
     const newStatus = { ...isEnabled, [switchID]: newSwitchID };
     setIsEnabled(newStatus);
   };
 
+  const toggleAdvertisingSwitch = (switchID) => {
+    const newAdSwitchID = !isAdvertising[switchID];
+    const newAdStatus = { ...isAdvertising, [switchID]: newAdSwitchID };
+    setIsAdvertising(newAdStatus);
+  };
+
   const maxLength = 250;
   const [text, setText] = React.useState("");
   const [url, setUrl] = React.useState("");
+  const [hash, setHash] = React.useState("");
+  const [postTitle, setTitle] = React.useState("");
   //const [currentLength, setCurrentLength] = React.useState(0);
   //const [textLength, setTextLength] = maxLength - currentLength ;
   // const [value, onChangeText] = React.useState();
@@ -47,11 +60,28 @@ const PostScreen = ({ navigation }) => {
         captionContent : text,
     };
 
+    var hashtag = {
+      hashtagsEntered : hash,
+    };
+
+    var title = {
+      titleEntered : postTitle,
+    };
+
     var network = {
       chosenNetworks : isEnabled,
     };
-    
+
+    var advertising = {
+      advertised : isAdvertising,
+    };
+
     var fdata = new FormData();
+    fdata.append('title', {
+      "string": JSON.stringify(title),
+      type: 'application/json'
+    });
+
     fdata.append('caption', {
         "string": JSON.stringify(caption),
         type: 'application/json'
@@ -66,6 +96,18 @@ const PostScreen = ({ navigation }) => {
       "string": JSON.stringify(network),
       type: 'application/json'
     });
+
+    fdata.append('hashtag', {
+      "string": JSON.stringify(hashtag),
+      type: 'application/json'
+    });
+
+    fdata.append('advertising', {
+      "string": JSON.stringify(advertising),
+      type: 'application/json'
+    });
+
+    
     console.log(img);
     console.log(caption);
     console.log(network);
@@ -119,7 +161,24 @@ const PostScreen = ({ navigation }) => {
             width: "100%",
             borderWidth: 0.5,
             borderRadius: 17,
-            padding: 4,
+            alignSelf: "center",
+            borderColor: "#EDA83A",
+          }}
+        >
+          <TextInput
+            onChangeText={(title) => setTitle(title)}
+            value={postTitle}
+            maxLength={maxLength}
+            placeholder="Post-Titel..."
+            style={{paddingLeft: 20,}}
+          />
+        </View>
+        <View
+          style={{
+            marginBottom: 8,
+            width: "100%",
+            borderWidth: 0.5,
+            borderRadius: 17,
             alignSelf: "center",
             borderColor: "#F7E2D2",
           }}
@@ -127,7 +186,7 @@ const PostScreen = ({ navigation }) => {
           <TextInput
               onChangeText={(url) => setUrl(url)}
               value={url}
-              placeholder="Bild-URL eingeben..."
+              placeholder="Bild-URL..."
               style={{paddingLeft: 20,}}
             />
         </View>
@@ -138,7 +197,6 @@ const PostScreen = ({ navigation }) => {
             width: "100%",
             borderWidth: 0.5,
             borderRadius: 17,
-            padding: 4,
             alignSelf: "center",
             borderColor: "#F7E2D2",
           }}
@@ -147,17 +205,47 @@ const PostScreen = ({ navigation }) => {
             onChangeText={(text) => setText(text)}
             value={text}
             maxLength={maxLength}
-            placeholder="Caption eingeben..."
+            placeholder="Caption..."
             style={{paddingLeft: 20,}}
           />
         </View>
-        <View style={{ marginBottom: 32 }}>
+        <View style={{ marginBottom: 8, }}>
           <Text>{`${text.length} / ${maxLength}`}</Text>
+        </View>
+        <View style={{ marginBottom: 15, }}>
+          <AdvertiseSwitch
+            toggleSwitch={toggleAdvertisingSwitch}
+            source={require("../images/megaphon.png")}
+            isAdvertising={isAdvertising.advertiseSwitch}
+            switchID="advertiseSwitch"
+          />
+        </View>
+        <View style={{ flexDirection: "row", }}>
+          <Text style={{ fontSize: 30, fontWeight: "bold", color: "#272727", paddingRight: 10, marginTop: 4,}}>
+            #
+          </Text>
+          <View
+            style={{
+              marginBottom: 32,
+              width: "90%",
+              borderWidth: 0.5,
+              borderRadius: 17,
+              alignSelf: "center",
+              borderColor: "#F7E2D2",
+            }}
+          >
+            <TextInput
+                onChangeText={(hashtag) => setHash(hashtag)}
+                value={hash}
+                placeholder="hashtags mit leerzeichen trennen"
+                style={{paddingLeft: 20,}}
+              />
+          </View>
         </View>
         <View>
           <Button
             title="Posten"
-            buttonStyle={styles.loginButton}
+            buttonStyle={styles.postButton}
             onPress={() => {
               sendData();
             }}

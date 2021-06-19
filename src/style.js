@@ -18,17 +18,19 @@ export default {
     backgroundColor: '#F7E2D2',
   },
   logoText: {
-    fontSize: 40,
+    fontSize: 28,
     fontWeight: "800",
-    marginTop: 150,
-    marginBottom: 30,
-    textAlign: "center",
+    marginTop: 80,
+    marginBottom: 20,
+    marginLeft: 15,
+    //textAlign: "center",
+    color: "#272727",
   },
   loginFormView: {
     flex: 1,
   },
   loginFormTextInput: {
-    height: 43,
+    height: 40,
     fontSize: 14,
     borderRadius: 17,
     borderWidth: 1,
@@ -47,6 +49,14 @@ export default {
     marginTop: 10,
     marginLeft: 15,
     marginRight: 15,
+  },
+
+  postButton: {
+    backgroundColor: "#EDA83A",
+    borderRadius: 17,
+    height: 45,
+    marginTop: 10,
+    width: "100%",
   },
 
   cameraButton: {
