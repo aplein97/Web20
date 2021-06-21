@@ -1,9 +1,10 @@
 {
-  "name": "InterAccountBot",
-  "displayName": "InterAccountBot",
+  "name": "Megafon",
+  "displayName": "Megafon",
   "expo": {
-    "name": "InterAccountBot",
-    "slug": "InterAccountBot",
+    "name": "Megafon",
+    "slug": "Megafon",
+    "icon": "src/images/megafonicon.png",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
