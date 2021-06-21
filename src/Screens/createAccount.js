@@ -106,19 +106,33 @@ export default class createAccount extends Component {
         }
       }
 
+      console.log(options);
+
+      // Fetch ohne Errorhandling
       /* fetch('185.176.41.137:3000/register', options)
         .then(res => res.json())
         .then(res => console.log(res)); */
 
-      console.log(options);
+      // Fetch mit Errorhandling
+      /* fetch('185.176.41.137:3000/register', options)
+        .then(res => {
+          if (res.ok) {
+              showMessage({
+                message: "Registrierung erfolgreich.",
+                type: "success",
+                floating: "true",
+              });
 
-      this._resetForm();
+              this._resetForm();
 
-      showMessage({
-        message: "Registrierung erfolgreich.",
-        type: "success",
-        floating: "true",
-      });
+              return res.json();
+          } else {
+              return Promise.reject(res.status);
+          }
+        })
+        .then(res => console.log(res))
+        .catch(err => console.log('Error with message: ${err}')); */
+
     }
   }
 	
