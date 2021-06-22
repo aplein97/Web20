@@ -116,7 +116,7 @@ export default class createAccount extends Component {
               });
 
               this._resetForm();
-              navigation.navigate("Login");
+              //navigation.navigate("Login");
               console.log('registration worked');
               return res.json();
           } else {
