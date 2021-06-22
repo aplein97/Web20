@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Button } from "react-native-elements";
+import { useNavigation } from '@react-navigation/native';
 
 import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
@@ -17,10 +18,9 @@ import FlashMessage from "react-native-flash-message";
 export default class createAccount extends Component {
 
   state = {
-		UserName: "",
-		Mail: "",
-		Password1: "",
-		Password2: ""
+		Mail: '',
+		Password1: '',
+		Password2: ''
 	};
 
   // Render view
@@ -30,22 +30,13 @@ export default class createAccount extends Component {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.loginScreenContainer}>
             <View style={styles.loginFormView}>
-            <Text>
+              <Text>
                 <FlashMessage 
                   position="top"
                   icon="auto"
                 />
               </Text>
               <Text style={styles.logoText}>Neuen Megafon-Account erstellen</Text>
-              <TextInput
-                placeholder="Username"
-                placeholderColor="#c4c3cb"
-                style={styles.loginFormTextInput}
-                onChangeText={text =>
-                  this.setState({ UserName: text })
-                }
-                value={this.state.UserName}
-              />
               <TextInput
                 placeholder="E-Mail"
                 placeholderColor="#c4c3cb"
@@ -93,7 +84,6 @@ export default class createAccount extends Component {
 		let result = this.validateFields();
 		if (result === true) {
       const user = {
-        username: this.state.UserName,
         email: this.state.Mail,
         pwd: this.state.Password1
       };
@@ -106,15 +96,17 @@ export default class createAccount extends Component {
         }
       }
 
-      console.log(options);
+      console.log(JSON.parse(JSON.stringify(user)));
 
       // Fetch ohne Errorhandling
       /* fetch('185.176.41.137:3000/register', options)
         .then(res => res.json())
         .then(res => console.log(res)); */
 
+
+      // Server IP: 185.176.41.137
       // Fetch mit Errorhandling
-      /* fetch('185.176.41.137:3000/register', options)
+      fetch('<own_intern_IP>:3000/register', options)
         .then(res => {
           if (res.ok) {
               showMessage({
@@ -124,14 +116,15 @@ export default class createAccount extends Component {
               });
 
               this._resetForm();
-
+              navigation.navigate("Login");
+              console.log('registration worked');
               return res.json();
           } else {
               return Promise.reject(res.status);
           }
         })
         .then(res => console.log(res))
-        .catch(err => console.log('Error with message: ${err}')); */
+        //.catch(err => console.log('Error with message: ${err}'));
 
     }
   }
@@ -141,27 +134,26 @@ export default class createAccount extends Component {
     let result = true;
     var reMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
-    if(this.state.UserName == '' || this.state.Mail == '' || this.state.Password1 == '' || this.state.Password2 == '') {
-      result = false;
+    if(this.state.Mail == '' || this.state.Password1 == '' || this.state.Password2 == '') {
       console.log('empty input fields');
       showMessage({
         message: "Bitte fülle alle Felder aus.",
         type: "danger",
         floating: "true",
       });
+      result = false;
     } else {
       if (reMail.test(this.state.Mail) === false) {
-        result = false;
         console.log('invalid email address');
         showMessage({
-          message: "Keine valide E-Mail-Adresse!",
+          message: "Keine gültige E-Mail-Adresse!",
           description: "Bitte überprüfe den Input.",
           type: "danger",
           floating: "true",
         });
+        result = false;
       } else {
         if(this.state.Password1 != this.state.Password2) {
-          result = false;
           console.log('passwords not matching');
           showMessage({
             message: "Die Passwörter stimmen nicht überein.",
@@ -169,6 +161,7 @@ export default class createAccount extends Component {
             type: "danger",
             floating: "true",
           });
+          result = false;
         }
       }
     }
@@ -178,10 +171,9 @@ export default class createAccount extends Component {
   // Empty input fields
   _resetForm() {
 		this.setState({
-			UserName: "",
-			Mail: "",
-			Password1: "",
-			Password2: ""
+			Mail: '',
+			Password1: '',
+			Password2: ''
 		});
 	}
 }
