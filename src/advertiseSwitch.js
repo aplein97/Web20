@@ -12,7 +12,8 @@ import {
 import { Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
 import { Image, Switch } from "react-native";
-import { Tooltip } from 'react-native-elements';
+//import { Tooltip } from 'react-native-elements';
+import Tooltip from 'rn-tooltip';
 
 const AdvertiseSwitch = ({ source, isAdvertising, toggleSwitch, switchID }) => {
   return (
@@ -32,9 +33,10 @@ const AdvertiseSwitch = ({ source, isAdvertising, toggleSwitch, switchID }) => {
       </View>
       <View>
         <Tooltip 
-          popover={<Text>Post bewerben?</Text>}
+          popover={<Text>Twitterpost bewerben?</Text>}
           backgroundColor={"#F7E2D2"}
           skipAndroidStatusBar={true}
+          height="auto"
         >
           <Image
             style={{ height: 40, width: 40, resizeMode: "contain", opacity: isAdvertising ? 1.0 : 0.2 }}
