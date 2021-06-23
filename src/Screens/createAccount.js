@@ -10,55 +10,88 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Button } from "react-native-elements";
+import { useNavigation } from '@react-navigation/native';
 
-//von createAccount zu Login
-const CreateAccountScreen = ({ navigation }) => {
-  const [UserID, setUserID] = React.useState();
-  const [Mail, setMail] = React.useState();
-  const [Password, setPassword] = React.useState(); 
+import { showMessage, hideMessage } from "react-native-flash-message";
+import FlashMessage from "react-native-flash-message";
+import registrationController from "../RegistrationController";
 
-  return (
-    <KeyboardAvoidingView style={styles.containerView} behavior="padding">
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.loginScreenContainer}>
-        <View style={styles.loginFormView}>
-          <Text style={styles.logoText}>Neuen Megafon-Account erstellen</Text>
-          <TextInput
-            placeholder="Username"
-            placeholderColor="#c4c3cb"
-            style={styles.loginFormTextInput}
-            onChangeText={(UserID) => setUserID({ UserID })}
-          />
-          <TextInput
-            placeholder="E-Mail"
-            placeholderColor="#c4c3cb"
-            style={styles.loginFormTextInput}
-            onChangeText={(Mail) => setMail({ Mail })}
-          />
-          <TextInput
-            placeholder="Passwort eingeben"
-            placeholderColor="#c4c3cb"
-            style={styles.loginFormTextInput}
-            secureTextEntry={true}
-            //onChangeText={(UserPassword) => setPassword({ UserPassword })}
-          />
-          <TextInput
-            placeholder="Passwort bestätigen"
-            placeholderColor="#c4c3cb"
-            style={styles.loginFormTextInput}
-            secureTextEntry={true}
-            //onChangeText={(UserPassword) => setPassword({ UserPassword })}
-          />
+const createAccount = ({ navigation }) => {
 
-          <Button
-            buttonStyle={styles.loginButton}
-            onPress={() => navigation.navigate("Login")}
-            title="Account erstellen"
-          />
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  </KeyboardAvoidingView>
-  );
-};
-export default CreateAccountScreen;
+  const [Mail, setMail] = React.useState("");
+  const [Password1, setPassword1] = React.useState("");
+  const [Password2, setPassword2] = React.useState("");
+
+  // Empty input fields
+  const resetForm = () => {
+    setMail("");
+    setPassword1("");
+    setPassword2("");
+  }
+
+  const handleRegistrationSuccess = () => {
+    resetForm();
+    navigation.navigate("Login");
+  }
+
+  const prepareForm = () => {
+    setMail(Mail);
+    setPassword1(Password1);
+    setPassword2(Password2);
+  }
+
+  // Render view
+    return (
+      <KeyboardAvoidingView style={styles.containerView}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.loginScreenContainer}>
+            <View style={styles.loginFormView}>
+              <Text>
+                <FlashMessage 
+                  position="top"
+                  icon="auto"
+                />
+              </Text>
+              <Text style={styles.logoText}>Neuen Megafon-Account erstellen</Text>
+              <TextInput
+                placeholder="E-Mail"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                onChangeText={(email) => setMail(email)}
+                value={Mail}
+              />
+              <TextInput
+                placeholder="Passwort eingeben"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                secureTextEntry={true}
+                onChangeText={(pwd1) => setPassword1(pwd1)}
+                value={Password1}
+              />
+              <TextInput
+                placeholder="Passwort bestätigen"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                secureTextEntry={true}
+                onChangeText={(pwd2) => setPassword2(pwd2)}
+                value={Password2}
+              />
+              <Button
+                buttonStyle={styles.loginButton}
+                onPress={() => {
+                  if(registrationController.makeAPICall(Mail, Password1, Password2)) {
+                    handleRegistrationSuccess();
+                  } else {
+                    prepareForm();
+                  }
+                }}
+                title="Account erstellen"
+              />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    );
+}
+
+export default createAccount;
