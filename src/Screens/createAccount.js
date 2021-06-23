@@ -14,17 +14,33 @@ import { useNavigation } from '@react-navigation/native';
 
 import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
+import registrationController from "../RegistrationController";
 
-export default class createAccount extends Component {
+const createAccount = ({ navigation }) => {
 
-  state = {
-		Mail: '',
-		Password1: '',
-		Password2: ''
-	};
+  const [Mail, setMail] = React.useState("");
+  const [Password1, setPassword1] = React.useState("");
+  const [Password2, setPassword2] = React.useState("");
+
+  // Empty input fields
+  const resetForm = () => {
+    setMail("");
+    setPassword1("");
+    setPassword2("");
+  }
+
+  const handleRegistrationSuccess = () => {
+    resetForm();
+    navigation.navigate("Login");
+  }
+
+  const prepareForm = () => {
+    setMail(Mail);
+    setPassword1(Password1);
+    setPassword2(Password2);
+  }
 
   // Render view
-  render() {
     return (
       <KeyboardAvoidingView style={styles.containerView}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -41,34 +57,34 @@ export default class createAccount extends Component {
                 placeholder="E-Mail"
                 placeholderColor="#c4c3cb"
                 style={styles.loginFormTextInput}
-                onChangeText={text =>
-                  this.setState({ Mail: text })
-                }
-                value={this.state.Mail}
+                onChangeText={(email) => setMail(email)}
+                value={Mail}
               />
               <TextInput
                 placeholder="Passwort eingeben"
                 placeholderColor="#c4c3cb"
                 style={styles.loginFormTextInput}
                 secureTextEntry={true}
-                onChangeText={text =>
-                  this.setState({ Password1: text })
-                }
-                value={this.state.Password1}
+                onChangeText={(pwd1) => setPassword1(pwd1)}
+                value={Password1}
               />
               <TextInput
                 placeholder="Passwort bestätigen"
                 placeholderColor="#c4c3cb"
                 style={styles.loginFormTextInput}
                 secureTextEntry={true}
-                onChangeText={text =>
-                  this.setState({ Password2: text })
-                }
-                value={this.state.Password2}
+                onChangeText={(pwd2) => setPassword2(pwd2)}
+                value={Password2}
               />
               <Button
                 buttonStyle={styles.loginButton}
-                onPress={() => this.makeAPICall()}
+                onPress={() => {
+                  if(registrationController.makeAPICall(Mail, Password1, Password2)) {
+                    handleRegistrationSuccess();
+                  } else {
+                    prepareForm();
+                  }
+                }}
                 title="Account erstellen"
               />
             </View>
@@ -76,107 +92,6 @@ export default class createAccount extends Component {
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     );
-  }
-
-  // Send data to API
-  makeAPICall = () => {
-		console.log("send data");
-		let result = this.validateFields();
-		if (result === true) {
-      const user = {
-        email: this.state.Mail,
-        pwd: this.state.Password1
-      };
-
-			const options = {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-      }
-
-      console.log(JSON.parse(JSON.stringify(user)));
-
-      // Fetch ohne Errorhandling
-      /* fetch('185.176.41.137:3000/register', options)
-        .then(res => res.json())
-        .then(res => console.log(res)); */
-
-
-      // Server IP: 185.176.41.137
-      // Fetch mit Errorhandling
-      fetch('<own_intern_IP>:3000/register', options)
-        .then(res => {
-          if (res.ok) {
-              showMessage({
-                message: "Registrierung erfolgreich.",
-                type: "success",
-                floating: "true",
-              });
-
-              this._resetForm();
-              //navigation.navigate("Login");
-              console.log('registration worked');
-              return res.json();
-          } else {
-              return Promise.reject(res.status);
-          }
-        })
-        .then(res => console.log(res))
-        //.catch(err => console.log('Error with message: ${err}'));
-
-    }
-  }
-	
-  // Validate input fields
-  validateFields() {
-    let result = true;
-    var reMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
-    if(this.state.Mail == '' || this.state.Password1 == '' || this.state.Password2 == '') {
-      console.log('empty input fields');
-      showMessage({
-        message: "Bitte fülle alle Felder aus.",
-        type: "danger",
-        floating: "true",
-      });
-      result = false;
-    } else {
-      if (reMail.test(this.state.Mail) === false) {
-        console.log('invalid email address');
-        showMessage({
-          message: "Keine gültige E-Mail-Adresse!",
-          description: "Bitte überprüfe den Input.",
-          type: "danger",
-          floating: "true",
-        });
-        result = false;
-      } else {
-        if(this.state.Password1 != this.state.Password2) {
-          console.log('passwords not matching');
-          showMessage({
-            message: "Die Passwörter stimmen nicht überein.",
-            description: "Bitte prüfe deine Eingaben.",
-            type: "danger",
-            floating: "true",
-          });
-          result = false;
-        }
-      }
-    }
-    return result;
-  }
-
-  // Empty input fields
-  _resetForm() {
-		this.setState({
-			Mail: '',
-			Password1: '',
-			Password2: ''
-		});
-	}
 }
 
-
-//navigation.navigate("Login")
+export default createAccount;
