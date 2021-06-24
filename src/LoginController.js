@@ -15,16 +15,17 @@ import { useNavigation } from '@react-navigation/native';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
 
-class RegistrationController {
+class LoginController {
 
     // Send data to API
-    makeAPICall(mail, password1, password2) {
+    makeAPICall(mail, password) {
         console.log("send data");
-        let result = this.validateFields(mail, password1, password2);
+
+        let result = this.validateFields(mail, password);
         if (result === true) {
             const user = {
                 email: mail,
-                pwd: password1
+                pwd: password
             };
 
             const options = {
@@ -33,29 +34,32 @@ class RegistrationController {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            };
+            }
 
             console.log(JSON.parse(JSON.stringify(user)));
 
-            // Server IP: https://185.176.41.137:3000/register
+            // Server IP: 185.176.41.137
             // Fetch mit Errorhandling
-            return fetch('http://<own_intern_ip>:3000/register', options)
+            return fetch('http://<own_intern_ip>:3000/login', options)
                 .then(res => {
-                    if (res.ok) {
-                        showMessage({
-                            message: "Registrierung erfolgreich.",
-                            type: "success",
-                            floating: "true",
-                        });
-
-                        console.log('registration worked');
-                        
-                        return res.json();
-                    } else {
-                        return Promise.reject(res.status);
-                    }
+                if (res.ok) {
+                    console.log('login worked');
+                    return res.json();
+                } else {
+                    showMessage({
+                        message: "Login fehlgeschlagen!",
+                        description: "Bitte überprüfe den Input.",
+                        type: "danger",
+                        floating: "true",
+                    });
+                    return Promise.reject(res.status);
+                }
                 })
-                .then(res => console.log(res))
+                .then(
+                    res => {
+                        console.log(res);
+                        console.log(res['token']);
+                })
                 //.catch(err => console.log('Error with message: ${err}'));
 
         } else {
@@ -64,11 +68,11 @@ class RegistrationController {
     }
 
     // Validate input fields
-    validateFields(mail, password1, password2) {
+    validateFields(mail, password) {
         let result = true;
         var reMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-        if(mail == '' || password1 == '' || password2 == '') {
+        if(mail == '' || password == '') {
             console.log('empty input fields');
             showMessage({
                 message: "Bitte fülle alle Felder aus.",
@@ -80,28 +84,18 @@ class RegistrationController {
             if (reMail.test(mail) === false) {
                 console.log('invalid email address');
                 showMessage({
-                    message: "Keine gültige E-Mail-Adresse!",
-                    description: "Bitte überprüfe den Input.",
-                    type: "danger",
-                    floating: "true",
+                message: "Keine gültige E-Mail-Adresse!",
+                description: "Bitte überprüfe den Input.",
+                type: "danger",
+                floating: "true",
                 });
                 result = false;
-            } else {
-                if(password1 != password2) {
-                    console.log('passwords not matching');
-                    showMessage({
-                        message: "Die Passwörter stimmen nicht überein.",
-                        description: "Bitte prüfe deine Eingaben.",
-                        type: "danger",
-                        floating: "true",
-                    });
-                    result = false;
-                }
-            }
+            } 
         }
+
         return result;
     }
 }
 
-const registrationController = new RegistrationController();
-export default registrationController;
+const loginController = new LoginController();
+export default loginController;

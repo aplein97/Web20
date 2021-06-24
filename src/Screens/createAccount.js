@@ -41,57 +41,57 @@ const createAccount = ({ navigation }) => {
   }
 
   // Render view
-    return (
-      <KeyboardAvoidingView style={styles.containerView}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.loginScreenContainer}>
-            <View style={styles.loginFormView}>
-              <Text>
-                <FlashMessage 
-                  position="top"
-                  icon="auto"
-                />
-              </Text>
-              <Text style={styles.logoText}>Neuen Megafon-Account erstellen</Text>
-              <TextInput
-                placeholder="E-Mail"
-                placeholderColor="#c4c3cb"
-                style={styles.loginFormTextInput}
-                onChangeText={(email) => setMail(email)}
-                value={Mail}
+  return (
+    <KeyboardAvoidingView style={styles.containerView}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.loginScreenContainer}>
+          <View style={styles.loginFormView}>
+            <Text>
+              <FlashMessage 
+                position="top"
+                icon="auto"
               />
-              <TextInput
-                placeholder="Passwort eingeben"
-                placeholderColor="#c4c3cb"
-                style={styles.loginFormTextInput}
-                secureTextEntry={true}
-                onChangeText={(pwd1) => setPassword1(pwd1)}
-                value={Password1}
-              />
-              <TextInput
-                placeholder="Passwort bestätigen"
-                placeholderColor="#c4c3cb"
-                style={styles.loginFormTextInput}
-                secureTextEntry={true}
-                onChangeText={(pwd2) => setPassword2(pwd2)}
-                value={Password2}
-              />
-              <Button
-                buttonStyle={styles.loginButton}
-                onPress={() => {
-                  if(registrationController.makeAPICall(Mail, Password1, Password2)) {
-                    handleRegistrationSuccess();
-                  } else {
-                    prepareForm();
-                  }
-                }}
-                title="Account erstellen"
-              />
-            </View>
+            </Text>
+            <Text style={styles.logoText}>Neuen Megafon-Account erstellen</Text>
+            <TextInput
+              placeholder="E-Mail"
+              placeholderColor="#c4c3cb"
+              style={styles.loginFormTextInput}
+              onChangeText={(email) => setMail(email)}
+              value={Mail}
+            />
+            <TextInput
+              placeholder="Passwort eingeben"
+              placeholderColor="#c4c3cb"
+              style={styles.loginFormTextInput}
+              secureTextEntry={true}
+              onChangeText={(pwd1) => setPassword1(pwd1)}
+              value={Password1}
+            />
+            <TextInput
+              placeholder="Passwort bestätigen"
+              placeholderColor="#c4c3cb"
+              style={styles.loginFormTextInput}
+              secureTextEntry={true}
+              onChangeText={(pwd2) => setPassword2(pwd2)}
+              value={Password2}
+            />
+            <Button
+              buttonStyle={styles.loginButton}
+              onPress={() => {
+                if(registrationController.makeAPICall(Mail, Password1, Password2)) {
+                  handleRegistrationSuccess();
+                } else {
+                  prepareForm();
+                }
+              }}
+              title="Account erstellen"
+            />
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    );
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+  );
 }
 
 export default createAccount;
