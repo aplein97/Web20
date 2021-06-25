@@ -11,6 +11,8 @@ import CreateAccountScreen from "./src/Screens/createAccount";
 import ManageAccountsScreen from "./src/Screens/ManageAccounts";
 import Settings from "./src/Screens/settings";
 import HomeScreen from "./src/Screens/Home";
+import AddSteemitAccount from "./src/Screens/addSteemitAccount";
+import AddMastodonAccount from "./src/Screens/addMastodonAccount";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -64,6 +66,16 @@ const App = () => {
           <Stack.Screen
             name="Settings"
             component={Settings}
+            //options={{ title: 'Welcome' }}
+          />
+          <Stack.Screen
+            name="AddSteemit"
+            component={AddSteemitAccount}
+            //options={{ title: 'Welcome' }}
+          />
+          <Stack.Screen
+            name="AddMastodon"
+            component={AddMastodonAccount}
             //options={{ title: 'Welcome' }}
           />
         </Stack.Navigator>

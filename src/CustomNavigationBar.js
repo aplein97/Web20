@@ -1,11 +1,14 @@
 import { Appbar, Menu } from "react-native-paper";
 import React from "react";
 import { Alert } from "react-native";
+import { ScreenStack } from "react-native-screens";
 
 function CustomNavigationBar({ navigation, previous }) {
   const [visible, setVisible] = React.useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
+
+  console.log(ScreenStack.name);
 
   return (
     <Appbar.Header style={{backgroundColor: '#ffffff', boxShadow: "none", marginTop: 7,}}>
@@ -15,6 +18,7 @@ function CustomNavigationBar({ navigation, previous }) {
         <Menu
           visible={visible}
           onDismiss={closeMenu}
+          //showMenuIconButton={ScreenStack.name == 'Login'? false : true}
           anchor={
             <Appbar.Action icon="menu" color="#272727" onPress={openMenu} />
           }

@@ -14,30 +14,27 @@ import { useNavigation } from '@react-navigation/native';
 
 import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
-import registrationController from "../RegistrationController";
+import accountController from "../AccountController";
 
-const createAccount = ({ navigation }) => {
+const AddSteemitAccount = ({ navigation }) => {
 
-  const [Mail, setMail] = React.useState("");
-  const [Password1, setPassword1] = React.useState("");
-  const [Password2, setPassword2] = React.useState("");
+  const [Username, setUsername] = React.useState("");
+  const [Password, setPassword] = React.useState("");
 
   // Empty input fields
   const resetForm = () => {
-    setMail("");
-    setPassword1("");
-    setPassword2("");
+    setUsername("");
+    setPassword("");
   }
 
   const handleRegistrationSuccess = () => {
     resetForm();
-    navigation.navigate("Login");
+    navigation.navigate("ManageAccounts");
   }
 
   const prepareForm = () => {
-    setMail(Mail);
-    setPassword1(Password1);
-    setPassword2(Password2);
+    setUsername(Username);
+    setPassword(Password);
   }
 
   // Render view
@@ -52,40 +49,32 @@ const createAccount = ({ navigation }) => {
                 icon="auto"
               />
             </Text>
-            <Text style={styles.logoText}>Neuen Megafon-Account erstellen</Text>
+            <Text style={styles.logoText}>Steemit-Account hinterlegen</Text>
             <TextInput
-              placeholder="E-Mail"
+              placeholder="Username"
               placeholderColor="#c4c3cb"
               style={styles.loginFormTextInput}
-              onChangeText={(email) => setMail(email)}
-              value={Mail}
+              onChangeText={(username) => setUsername(username)}
+              value={Username}
             />
             <TextInput
-              placeholder="Passwort eingeben"
+              placeholder="Master-Passwort"
               placeholderColor="#c4c3cb"
               style={styles.loginFormTextInput}
               secureTextEntry={true}
-              onChangeText={(pwd1) => setPassword1(pwd1)}
-              value={Password1}
-            />
-            <TextInput
-              placeholder="Passwort bestätigen"
-              placeholderColor="#c4c3cb"
-              style={styles.loginFormTextInput}
-              secureTextEntry={true}
-              onChangeText={(pwd2) => setPassword2(pwd2)}
-              value={Password2}
+              onChangeText={(pwd) => setPassword(pwd)}
+              value={Password}
             />
             <Button
               buttonStyle={styles.loginButton}
               onPress={() => {
-                if(registrationController.makeAPICall(Mail, Password1, Password2)) {
+                if(accountController.makeAPICall(Username, Password, 'steemit')) {
                   handleRegistrationSuccess();
                 } else {
                   prepareForm();
                 }
               }}
-              title="Account erstellen"
+              title="Account hinzufügen"
             />
           </View>
         </View>
@@ -94,4 +83,4 @@ const createAccount = ({ navigation }) => {
   );
 }
 
-export default createAccount;
+export default AddSteemitAccount;

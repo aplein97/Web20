@@ -12,12 +12,13 @@ import {
 import { Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
 import { Image, Switch } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
 import IconSwitch from "../iconSwitch";
 import AdvertiseSwitch from "../advertiseSwitch";
 import ImageChooser from "../ImageChooser";
 import { ScrollView } from "react-native";
-//const appId = "1047121222092614"
+import postController from "../PostController";
 
 const PostScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = React.useState({
@@ -47,71 +48,32 @@ const PostScreen = ({ navigation }) => {
   const [url, setUrl] = React.useState("");
   const [hash, setHash] = React.useState("");
   const [postTitle, setTitle] = React.useState("");
-  //const [currentLength, setCurrentLength] = React.useState(0);
-  //const [textLength, setTextLength] = maxLength - currentLength ;
-  // const [value, onChangeText] = React.useState();
 
-  function sendData() {
-    var img = {
-      imgUrl : url,
-    };
-
-    var caption = {
-        captionContent : text,
-    };
-
-    var hashtag = {
-      hashtagsEntered : hash,
-    };
-
-    var title = {
-      titleEntered : postTitle,
-    };
-
-    var network = {
-      chosenNetworks : isEnabled,
-    };
-
-    var advertising = {
-      advertised : isAdvertising,
-    };
-
-    var fdata = new FormData();
-    fdata.append('title', {
-      "string": JSON.stringify(title),
-      type: 'application/json'
-    });
-
-    fdata.append('caption', {
-        "string": JSON.stringify(caption),
-        type: 'application/json'
-    });
-    
-    fdata.append('img', {
-        "string": JSON.stringify(img),
-        type: 'application/json'
-    });
-
-    fdata.append('network', {
-      "string": JSON.stringify(network),
-      type: 'application/json'
-    });
-
-    fdata.append('hashtag', {
-      "string": JSON.stringify(hashtag),
-      type: 'application/json'
-    });
-
-    fdata.append('advertising', {
-      "string": JSON.stringify(advertising),
-      type: 'application/json'
-    });
-
-    
-    console.log(img);
-    console.log(caption);
-    console.log(network);
+  // Empty input fields
+  const resetForm = () => {
+    setText("");
+    setUrl("");
+    setHash("");
+    setTitle("");
   }
+
+  const handlePostSuccess = () => {
+    resetForm();
+
+    showMessage({
+      message: "Post erfolgreich!",
+      type: "success",
+      floating: "true",
+    });
+  }
+
+  const prepareForm = () => {
+    setText(text);
+    setUrl(url);
+    setHash(hash);
+    setTitle(postTitle);
+  }
+
   return (
     <ScrollView style={{ backgroundColor: "#ffffff", }}>
       <View style={{ flexDirection: "column", padding: 28,}}>
@@ -120,9 +82,6 @@ const PostScreen = ({ navigation }) => {
             Post verfassen
           </Text>
         </View>
-        {/* <View style={{ marginBottom: 48 }}>
-          <ImageChooser />
-        </View> */}
         <View
           style={{
             marginBottom: 24,
@@ -247,7 +206,11 @@ const PostScreen = ({ navigation }) => {
             title="Posten"
             buttonStyle={styles.postButton}
             onPress={() => {
-              sendData();
+              if(postController.makeAPICall(url, text, hash, postTitle, isEnabled, isAdvertising)) {
+                handlePostSuccess();
+              } else {
+                prepareForm();
+              }
             }}
           />
         </View>

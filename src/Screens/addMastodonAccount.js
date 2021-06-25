@@ -14,30 +14,24 @@ import { useNavigation } from '@react-navigation/native';
 
 import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
-import registrationController from "../RegistrationController";
+import accountController from "../AccountController";
 
-const createAccount = ({ navigation }) => {
+const AddMastodonAccount = ({ navigation }) => {
 
-  const [Mail, setMail] = React.useState("");
-  const [Password1, setPassword1] = React.useState("");
-  const [Password2, setPassword2] = React.useState("");
+  const [InstanceUrl, setInstanceUrl] = React.useState("");
 
   // Empty input fields
   const resetForm = () => {
-    setMail("");
-    setPassword1("");
-    setPassword2("");
+    setInstanceUrl("");
   }
 
   const handleRegistrationSuccess = () => {
     resetForm();
-    navigation.navigate("Login");
+    //navigation.navigate("ManageAccounts");
   }
 
   const prepareForm = () => {
-    setMail(Mail);
-    setPassword1(Password1);
-    setPassword2(Password2);
+    setInstanceUrl(InstanceUrl);
   }
 
   // Render view
@@ -52,40 +46,24 @@ const createAccount = ({ navigation }) => {
                 icon="auto"
               />
             </Text>
-            <Text style={styles.logoText}>Neuen Megafon-Account erstellen</Text>
+            <Text style={styles.logoText}>Mastodon-Account hinterlegen</Text>
             <TextInput
-              placeholder="E-Mail"
+              placeholder="Instanz-URL (z.B. botsin.space ...)"
               placeholderColor="#c4c3cb"
               style={styles.loginFormTextInput}
-              onChangeText={(email) => setMail(email)}
-              value={Mail}
-            />
-            <TextInput
-              placeholder="Passwort eingeben"
-              placeholderColor="#c4c3cb"
-              style={styles.loginFormTextInput}
-              secureTextEntry={true}
-              onChangeText={(pwd1) => setPassword1(pwd1)}
-              value={Password1}
-            />
-            <TextInput
-              placeholder="Passwort bestätigen"
-              placeholderColor="#c4c3cb"
-              style={styles.loginFormTextInput}
-              secureTextEntry={true}
-              onChangeText={(pwd2) => setPassword2(pwd2)}
-              value={Password2}
+              onChangeText={(url) => setInstanceUrl(url)}
+              value={InstanceUrl}
             />
             <Button
               buttonStyle={styles.loginButton}
               onPress={() => {
-                if(registrationController.makeAPICall(Mail, Password1, Password2)) {
+                if(accountController.makeMastodonCall(InstanceUrl, 'mastodon')) {
                   handleRegistrationSuccess();
                 } else {
                   prepareForm();
                 }
               }}
-              title="Account erstellen"
+              title="Account hinzufügen"
             />
           </View>
         </View>
@@ -94,4 +72,4 @@ const createAccount = ({ navigation }) => {
   );
 }
 
-export default createAccount;
+export default AddMastodonAccount;
