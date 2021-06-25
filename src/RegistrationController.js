@@ -39,7 +39,7 @@ class RegistrationController {
 
             // Server IP: https://185.176.41.137:3000/register
             // Fetch mit Errorhandling
-            return fetch('http://<own_intern_ip>:3000/register', options)
+            return fetch('http://<own_internal_ip>:3000/register', options)
                 .then(res => {
                     if (res.ok) {
                         showMessage({
@@ -56,7 +56,7 @@ class RegistrationController {
                     }
                 })
                 .then(res => console.log(res))
-                //.catch(err => console.log('Error with message: ${err}'));
+                .catch(err => console.log('Error with message:  ' + err));
 
         } else {
             return false;

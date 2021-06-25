@@ -51,6 +51,15 @@ export default {
     marginRight: 15,
   },
 
+  accountButton: {
+    backgroundColor: "#EDA83A",
+    borderRadius: 17,
+    height: 45,
+    marginTop: 20,
+    marginLeft: 15,
+    marginRight: 15,
+  },
+
   postButton: {
     backgroundColor: "#EDA83A",
     borderRadius: 17,

@@ -48,7 +48,6 @@ const PostScreen = ({ navigation }) => {
   const [url, setUrl] = React.useState("");
   const [hash, setHash] = React.useState("");
   const [postTitle, setTitle] = React.useState("");
-  const [userToken, setUserToken] = React.useState("");
 
   // Empty input fields
   const resetForm = () => {
@@ -207,7 +206,7 @@ const PostScreen = ({ navigation }) => {
             title="Posten"
             buttonStyle={styles.postButton}
             onPress={() => {
-              if(postController.makeAPICall(url, text, hash, postTitle, isEnabled, isAdvertising, userToken)) {
+              if(postController.makeAPICall(url, text, hash, postTitle, isEnabled, isAdvertising)) {
                 handlePostSuccess();
               } else {
                 prepareForm();

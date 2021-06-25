@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
+import * as Keychain from 'react-native-keychain';
 
 class LoginController {
 
@@ -40,27 +41,33 @@ class LoginController {
 
             // Server IP: 185.176.41.137
             // Fetch mit Errorhandling
-            return fetch('http://<own_intern_ip>:3000/login', options)
+            return fetch('http://<internal-IP>:3000/login', options)
                 .then(res => {
-                if (res.ok) {
-                    console.log('login worked');
-                    return res.json();
-                } else {
-                    showMessage({
-                        message: "Login fehlgeschlagen!",
-                        description: "Bitte überprüfe den Input.",
-                        type: "danger",
-                        floating: "true",
-                    });
-                    return Promise.reject(res.status);
-                }
+                    if (res.ok) {
+                        console.log('login worked');
+                        return res.json();
+                    } else {
+                        showMessage({
+                            message: "Login fehlgeschlagen!",
+                            description: "Bitte überprüfe den Input.",
+                            type: "danger",
+                            floating: "true",
+                        });
+                        return Promise.reject(res.status);
+                    }
                 })
                 .then(
                     res => {
                         console.log(res);
-                        console.log(res['token']);
-                })
-                //.catch(err => console.log('Error with message: ${err}'));
+                        const username = 'token';
+                        const password = res['token'];
+                        try {
+                            this.setUserToken(res['token']);
+                        } catch (error) {
+                            console.log('Key couldn\'t be set!', error);
+                        }
+                    })
+                .catch(err => console.log('Error with message: ' + err));
 
         } else {
             return false;
@@ -94,6 +101,31 @@ class LoginController {
         }
 
         return result;
+    }
+
+    checkUserStatus = async () => {
+        try {
+        // Get credentials
+        const credentials = await Keychain.getGenericPassword()
+
+            if(credentials) {
+                return credentials.password;
+            }
+        }
+        catch (error) {
+          console.log('Keychain couldn\'t be accessed!', error);
+        }
+    }
+
+    setUserToken = async(res) => {
+        console.log('working');
+        const key = 'token';
+        const password = res;
+      
+        // Store the credentials
+        await Keychain.setGenericPassword(key, password);
+
+        this.checkUserStatus();
     }
 }
 
