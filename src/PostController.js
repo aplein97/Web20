@@ -59,7 +59,7 @@ class PostController {
 
                         console.log(JSON.parse(JSON.stringify(options)));
 
-                        return fetch('http://192.168.2.168:3000/steem/post', options)
+                        return fetch('http://<own_internal_IP>:3000/steem/post', options)
                         .then(res => {
                             if (res.ok) {
                                 console.log('steemit posting worked');
