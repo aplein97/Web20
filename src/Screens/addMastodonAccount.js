@@ -21,7 +21,9 @@ import { acc } from "react-native-reanimated";
 const AddMastodonAccount = ({ navigation }) => {
 
   const [InstanceUrl, setInstanceUrl] = React.useState("");
+  const [AuthCode, setAuthCode] = React.useState("");
   const [showUrl, setShowUrl] = React.useState(false);
+  const [showInput, setShowInput] = React.useState(false);
 
   // Empty input fields
   const resetForm = () => {
@@ -31,20 +33,48 @@ const AddMastodonAccount = ({ navigation }) => {
   const handleRegistrationSuccess = () => {
     resetForm();
     setShowUrl(true);
+    setShowInput(true);
   }
 
   const prepareForm = () => {
     setInstanceUrl(InstanceUrl);
   }
 
+  // Render view for authentication link
   const renderUrl = () => {
     if(showUrl == true) {
       return (
         <Hyperlink linkDefault={ true }>
           <Text style={ { fontSize: 15 } }>
-            {accountController.getAuthUrl()}
+            Hier Account bestätigen: {accountController.getAuthUrl()}
           </Text>
         </Hyperlink>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  // Render view for input of authentication code to paste in
+  const renderCodeInput = () => {
+    if(showInput == true) {
+      return (
+        <>
+        <TextInput
+          placeholder="Authentifizierungscode eingeben"
+          placeholderColor="#c4c3cb"
+          style={styles.loginFormTextInput}
+          onChangeText={(code) => setAuthCode(code)}
+          value={AuthCode}
+        />
+        <Button
+              buttonStyle={styles.loginButton}
+              onPress={() => {
+                  accountController.sendAuthCode(AuthCode), navigation.navigate("Post");
+              }}
+              title="Code abschicken"
+        />
+        </>
       );
     } else {
       return null;
@@ -74,20 +104,19 @@ const AddMastodonAccount = ({ navigation }) => {
             <Button
               buttonStyle={styles.loginButton}
               onPress={() => {
-                accountController.makeMastodonCall(InstanceUrl, 'mastodon');
-                console.log(accountController.getAuthUrl());
-                //console.log('rfontend ' +accountController.getAuthUrl());
-                /* {
+                if (accountController.makeMastodonCall(InstanceUrl)) {
                   handleRegistrationSuccess();
-                  console.log('url ' + accountController.getAuthUrl());
                 } else {
                   prepareForm();
-                } */
+                }
               }}
               title="Account hinzufügen"
             />
-            <View>
+            <View style={styles.authUrl}>
               { renderUrl() }
+            </View>
+            <View style={styles.loginFormView}>
+              { renderCodeInput() }
             </View>
           </View>
         </View>

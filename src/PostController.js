@@ -41,11 +41,10 @@ class PostController {
                     if(isEnabled['steemitSwitch'] == true) {
                         const post = {
                             title : postTitle,
-                            imgUrl : '',
+                            imgUrl : url,
                             message : text,
                             tags : hash.split(' '),
                             advertise : advertising,
-                            //token : response,
                         };
             
                         const options = {
@@ -75,12 +74,11 @@ class PostController {
 
                     if(isEnabled['mastodonSwitch'] == true) {
                         const post = {
-                            title : postTitle,
-                            imgUrl : '',
+                            //title : postTitle,
+                            //imgUrl : '',
                             message : text,
-                            tags : hash.split(' '),
-                            advertise : advertising,
-                            //token : response,
+                            //tags : hash.split(' '),
+                            //advertise : advertising,
                         };
             
                         const options = {
@@ -94,7 +92,7 @@ class PostController {
 
                         console.log(JSON.parse(JSON.stringify(options)));
 
-                        return fetch('http://<own_intern_IP>:3000/mastodon/post', options)
+                        return fetch('http://<internal_IP>:3000/mastodon/post', options)
                         .then(res => {
                             if (res.ok) {
                                 console.log('mastodon posting worked');
@@ -107,6 +105,40 @@ class PostController {
                         .then(res => console.log(res))
                         .catch(err => console.log('Error with message:  ' + err));
                     }
+
+                    /* if(isEnabled['twitterSwitch'] == true) {
+                        const post = {
+                            //title : postTitle,
+                            //imgUrl : '',
+                            message : text,
+                            //tags : hash.split(' '),
+                            //advertise : advertising,
+                        };
+            
+                        const options = {
+                            method: 'POST',
+                            body: JSON.stringify(post),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + response
+                            }
+                        };
+
+                        console.log(JSON.parse(JSON.stringify(options)));
+
+                        return fetch('http://<internal_IP>:3000/twitter/post', options)
+                        .then(res => {
+                            if (res.ok) {
+                                console.log('twitter posting worked');
+                                
+                                return res.json();
+                            } else {
+                                return Promise.reject(res.status);
+                            }
+                        })
+                        .then(res => console.log(res))
+                        .catch(err => console.log('Error with message:  ' + err));
+                    } */
                     return response;
                 });
 
