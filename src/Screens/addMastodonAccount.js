@@ -15,10 +15,15 @@ import { useNavigation } from '@react-navigation/native';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
 import accountController from "../AccountController";
+import Hyperlink from 'react-native-hyperlink'
+import { acc } from "react-native-reanimated";
 
 const AddMastodonAccount = ({ navigation }) => {
 
   const [InstanceUrl, setInstanceUrl] = React.useState("");
+  const [AuthCode, setAuthCode] = React.useState("");
+  const [showUrl, setShowUrl] = React.useState(false);
+  const [showInput, setShowInput] = React.useState(false);
 
   // Empty input fields
   const resetForm = () => {
@@ -27,11 +32,53 @@ const AddMastodonAccount = ({ navigation }) => {
 
   const handleRegistrationSuccess = () => {
     resetForm();
-    //navigation.navigate("ManageAccounts");
+    setShowUrl(true);
+    setShowInput(true);
   }
 
   const prepareForm = () => {
     setInstanceUrl(InstanceUrl);
+  }
+
+  // Render view for authentication link
+  const renderUrl = () => {
+    if(showUrl == true) {
+      return (
+        <Hyperlink linkDefault={ true }>
+          <Text style={ { fontSize: 15 } }>
+            Hier Account bestätigen: {accountController.getAuthUrl()}
+          </Text>
+        </Hyperlink>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  // Render view for input of authentication code to paste in
+  const renderCodeInput = () => {
+    if(showInput == true) {
+      return (
+        <>
+        <TextInput
+          placeholder="Authentifizierungscode eingeben"
+          placeholderColor="#c4c3cb"
+          style={styles.loginFormTextInput}
+          onChangeText={(code) => setAuthCode(code)}
+          value={AuthCode}
+        />
+        <Button
+              buttonStyle={styles.loginButton}
+              onPress={() => {
+                  accountController.sendAuthCode(AuthCode), navigation.navigate("Post");
+              }}
+              title="Code abschicken"
+        />
+        </>
+      );
+    } else {
+      return null;
+    }
   }
 
   // Render view
@@ -57,7 +104,7 @@ const AddMastodonAccount = ({ navigation }) => {
             <Button
               buttonStyle={styles.loginButton}
               onPress={() => {
-                if(accountController.makeMastodonCall(InstanceUrl, 'mastodon')) {
+                if (accountController.makeMastodonCall(InstanceUrl)) {
                   handleRegistrationSuccess();
                 } else {
                   prepareForm();
@@ -65,6 +112,12 @@ const AddMastodonAccount = ({ navigation }) => {
               }}
               title="Account hinzufügen"
             />
+            <View style={styles.authUrl}>
+              { renderUrl() }
+            </View>
+            <View style={styles.loginFormView}>
+              { renderCodeInput() }
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>

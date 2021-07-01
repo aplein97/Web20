@@ -18,8 +18,12 @@ import * as Keychain from 'react-native-keychain';
 import loginController from "./LoginController";
 
 class AccountController {
+
+    constructor() {
+        this.mastodonAuthUrl = '';
+    }
     
-    // Send data to API
+    // Send steemit data to API
     makeAPICall(user, password, network) {
         console.log("send steemit account data");
         
@@ -44,7 +48,7 @@ class AccountController {
         
                     console.log(JSON.parse(JSON.stringify(account)));
 
-                    // Server IP: https://185.176.41.137:3000/steemit/post
+                    // Server IP: https://185.176.41.137:3000/steem/register
                     if(network == 'steemit') {
                         return fetch('http://<internal-IP>:3000/steem/register', options)
                             .then(res => {
@@ -68,11 +72,9 @@ class AccountController {
         }
     }
 
-    // Send data to API
-    makeMastodonCall(url, network) {
+    // Send mastodon data to API
+    makeMastodonCall = async (url) => {
         console.log("send mastodon instance url");
-        let result = true;
-        if (result === true) {
             
             loginController.checkUserStatus()
                 .then(response => {
@@ -87,33 +89,91 @@ class AccountController {
                         method: 'POST',
                         body: JSON.stringify(account),
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + response,
                         }
                     };
         
                     console.log(JSON.parse(JSON.stringify(account)));
 
-                    if(network == 'mastodon') {
-                        return fetch('http://185.176.41.137:3000/mastodon/register', options)
-                            .then(res => {
-                                if (res.ok) {
-                                    console.log('mastodon posting worked');
-                                    
-                                    return res.json();
-                                } else {
-                                    return Promise.reject(res.status);
+                    // Server IP: https://185.176.41.137:3000/mastodon/register
+                    fetch('http://<internal_IP>3000/mastodon/register', options)
+                        .then(res => {
+                            if (res.ok) {
+                                console.log('mastodon registration step 1 worked');
+                                return res.json();
+                            } else {
+                                return Promise.reject(res.status);
+                            }
+                        })
+                        .then(
+                            res => {
+                                console.log(res);
+                                try {
+                                    this.setAuthUrl(res['authUrl']);
+                                } catch (error) {
+                                    console.log('Url couldn\'t be set!', error);
                                 }
-                            })
-                            .then(res => console.log(res))
-                            .catch(err => console.log('Error with message: ' + err));
-                    }
-                    return response;
+                            }
+                        )
+                        .catch(
+                            err => console.log('Error with message: ' + err)
+                        );
                 })
                 .catch(err => console.log('Error with message: ' + err));
 
-        } else {
-            return false;
-        }
+    }
+
+    // Setter for Mastodon authentication url
+    setAuthUrl(res) {
+        this.mastodonAuthUrl = res;
+    }
+
+    // Getter for Mastodon authentication url
+    getAuthUrl() {
+        return this.mastodonAuthUrl;
+    }
+
+    // Sending mastodon authentication code for linking account
+    sendAuthCode = async (code) => {
+
+        loginController.checkUserStatus()
+            .then(response => {
+                console.log('Response: ' + response);
+
+                const Code = {
+                    authCode : code,
+                };
+
+                const options = {
+                    method: 'POST',
+                    body: JSON.stringify(Code),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + response,
+                    }
+                };
+
+                // Server IP: https://185.176.41.137:3000/mastodon/register/auth
+                fetch('http://<internal_IP>:3000/mastodon/register/auth', options)
+                        .then(res => {
+                            if (res.ok) {
+                                console.log('mastodon registration step 2 worked');
+                                return res.json();
+                            } else {
+                                return Promise.reject(res.status);
+                            }
+                        })
+                        .then(
+                            res => {
+                                console.log(res);
+                            }
+                        )
+                        .catch(
+                            err => console.log('Error with message: ' + err)
+                        );
+            })
+            .catch(err => console.log('Error with message: ' + err));
     }
 }
 

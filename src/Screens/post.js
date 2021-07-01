@@ -206,6 +206,7 @@ const PostScreen = ({ navigation }) => {
             title="Posten"
             buttonStyle={styles.postButton}
             onPress={() => {
+              // TODO: if Condition greift noch nicht
               if(postController.makeAPICall(url, text, hash, postTitle, isEnabled, isAdvertising)) {
                 handlePostSuccess();
               } else {

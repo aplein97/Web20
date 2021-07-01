@@ -42,6 +42,14 @@ export default {
     marginTop: 5,
     marginBottom: 5,
   },
+  authUrl: {
+    fontSize: 14,
+    paddingLeft: 5,
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 25,
+    marginBottom: 5,
+  },
   loginButton: {
     backgroundColor: "#EDA83A",
     borderRadius: 17,
