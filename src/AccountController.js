@@ -17,6 +17,8 @@ import FlashMessage from "react-native-flash-message";
 import * as Keychain from 'react-native-keychain';
 import loginController from "./LoginController";
 
+const url = '';
+
 class AccountController {
     
     // Send data to API
@@ -87,33 +89,60 @@ class AccountController {
                         method: 'POST',
                         body: JSON.stringify(account),
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + response,
                         }
                     };
         
                     console.log(JSON.parse(JSON.stringify(account)));
 
-                    if(network == 'mastodon') {
-                        return fetch('http://185.176.41.137:3000/mastodon/register', options)
-                            .then(res => {
-                                if (res.ok) {
-                                    console.log('mastodon posting worked');
-                                    
-                                    return res.json();
-                                } else {
-                                    return Promise.reject(res.status);
+                    fetch('http://<internal_IP>:3000/mastodon/register', options)
+                        .then(res => {
+                            if (res.ok) {
+                                console.log('mastodon registration step 1 worked');
+                                return res.json();
+                            } else {
+                                return Promise.reject(res.status);
+                            }
+                        })
+                        .then(
+                            res => {
+                                console.log(res);
+                                try {
+                                    this.setAuthUrl(res['authUrl']);
+                                } catch (error) {
+                                    console.log('Url couldn\'t be set!', error);
                                 }
-                            })
-                            .then(res => console.log(res))
-                            .catch(err => console.log('Error with message: ' + err));
-                    }
-                    return response;
+                            }
+                        )
+                        .catch(err => console.log('Error with message: ' + err));
                 })
                 .catch(err => console.log('Error with message: ' + err));
 
         } else {
             return false;
         }
+    }
+
+    setAuthUrl = async(Url) => {
+
+            const url = Url;
+            // Get authentication url
+            if(url) {
+                return url;
+            }
+
+        /* catch (error) {
+          console.log('No authentication url found!', error);
+        } */
+    }
+
+    getAuthUrl = async () => {
+        this.setAuthUrl()
+            .then(() => {
+            console.log('working ' + url);
+            return url;
+            })
     }
 }
 

@@ -15,10 +15,13 @@ import { useNavigation } from '@react-navigation/native';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
 import accountController from "../AccountController";
+import Hyperlink from 'react-native-hyperlink'
+import { acc } from "react-native-reanimated";
 
 const AddMastodonAccount = ({ navigation }) => {
 
   const [InstanceUrl, setInstanceUrl] = React.useState("");
+  const [showUrl, setShowUrl] = React.useState(false);
 
   // Empty input fields
   const resetForm = () => {
@@ -27,11 +30,25 @@ const AddMastodonAccount = ({ navigation }) => {
 
   const handleRegistrationSuccess = () => {
     resetForm();
-    //navigation.navigate("ManageAccounts");
+    setShowUrl(true);
   }
 
   const prepareForm = () => {
     setInstanceUrl(InstanceUrl);
+  }
+
+  const renderUrl = () => {
+    if(showUrl == true) {
+      return (
+        <Hyperlink linkDefault={ true }>
+          <Text style={ { fontSize: 15 } }>
+            {accountController.getAuthUrl()}
+          </Text>
+        </Hyperlink>
+      );
+    } else {
+      return null;
+    }
   }
 
   // Render view
@@ -57,14 +74,21 @@ const AddMastodonAccount = ({ navigation }) => {
             <Button
               buttonStyle={styles.loginButton}
               onPress={() => {
-                if(accountController.makeMastodonCall(InstanceUrl, 'mastodon')) {
+                accountController.makeMastodonCall(InstanceUrl, 'mastodon');
+                console.log(accountController.getAuthUrl());
+                //console.log('rfontend ' +accountController.getAuthUrl());
+                /* {
                   handleRegistrationSuccess();
+                  console.log('url ' + accountController.getAuthUrl());
                 } else {
                   prepareForm();
-                }
+                } */
               }}
               title="Account hinzufügen"
             />
+            <View>
+              { renderUrl() }
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>

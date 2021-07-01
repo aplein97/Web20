@@ -30,29 +30,36 @@ class PostController {
                 .then(response => {
                     console.log('Response: ' + response);
 
-                    const post = {
-                        imgUrl : url,
-                        message : text,
-                        tags : hash,
-                        title : postTitle,
-                        chosenNetworks : isEnabled,
-                        advertise : isAdvertising,
-                        token : response,
-                    };
-        
-                    const options = {
-                        method: 'POST',
-                        body: JSON.stringify(post),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    };
-        
-                    console.log(JSON.parse(JSON.stringify(post)));
+                    let advertising;
+                    if(isAdvertising['advertiseSwitch'] == true) {
+                        advertising = true;
+                    } else {
+                        advertising = false;
+                    }
 
-                    // Server IP: https://185.176.41.137:3000/steemit/post
-                    /* if(isEnabled['steemitSwitch'] == true) {
-                        return fetch('http://<own_intern_IP>:3000/steemit/post', options)
+                    // Server IP: https://185.176.41.137:3000/steem/post
+                    if(isEnabled['steemitSwitch'] == true) {
+                        const post = {
+                            title : postTitle,
+                            imgUrl : '',
+                            message : text,
+                            tags : hash.split(' '),
+                            advertise : advertising,
+                            //token : response,
+                        };
+            
+                        const options = {
+                            method: 'POST',
+                            body: JSON.stringify(post),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + response
+                            }
+                        };
+
+                        console.log(JSON.parse(JSON.stringify(options)));
+
+                        return fetch('http://192.168.2.168:3000/steem/post', options)
                         .then(res => {
                             if (res.ok) {
                                 console.log('steemit posting worked');
@@ -63,10 +70,30 @@ class PostController {
                             }
                         })
                         .then(res => console.log(res))
-                        //.catch(err => console.log('Error with message:  ' + err));
+                        .catch(err => console.log('Error with message:  ' + err));
                     }
 
                     if(isEnabled['mastodonSwitch'] == true) {
+                        const post = {
+                            title : postTitle,
+                            imgUrl : '',
+                            message : text,
+                            tags : hash.split(' '),
+                            advertise : advertising,
+                            //token : response,
+                        };
+            
+                        const options = {
+                            method: 'POST',
+                            body: JSON.stringify(post),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + response
+                            }
+                        };
+
+                        console.log(JSON.parse(JSON.stringify(options)));
+
                         return fetch('http://<own_intern_IP>:3000/mastodon/post', options)
                         .then(res => {
                             if (res.ok) {
@@ -78,8 +105,8 @@ class PostController {
                             }
                         })
                         .then(res => console.log(res))
-                        //.catch(err => console.log('Error with message:  ' + err));
-                    } */
+                        .catch(err => console.log('Error with message:  ' + err));
+                    }
                     return response;
                 });
 

@@ -41,7 +41,7 @@ class LoginController {
 
             // Server IP: 185.176.41.137
             // Fetch mit Errorhandling
-            return fetch('http://<internal-IP>:3000/login', options)
+            return fetch('http://<internal_IP>:3000/login', options)
                 .then(res => {
                     if (res.ok) {
                         console.log('login worked');
@@ -59,14 +59,13 @@ class LoginController {
                 .then(
                     res => {
                         console.log(res);
-                        const username = 'token';
-                        const password = res['token'];
                         try {
                             this.setUserToken(res['token']);
                         } catch (error) {
                             console.log('Key couldn\'t be set!', error);
                         }
-                    })
+                    }
+                )
                 .catch(err => console.log('Error with message: ' + err));
 
         } else {
