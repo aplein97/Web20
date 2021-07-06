@@ -53,14 +53,11 @@ class AccountController {
                         return fetch('http://<internal-IP>:3000/steem/register', options)
                             .then(res => {
                                 if (res.ok) {
-                                    console.log('steemit account added');
-                                    
                                     return res.json();
                                 } else {
                                     return Promise.reject(res.status);
                                 }
                             })
-                            .then(res => console.log(res))
                             .catch(err => console.log('Error with message: ' + err));
                     }
 
@@ -78,7 +75,6 @@ class AccountController {
             
             loginController.checkUserStatus()
                 .then(response => {
-                    console.log('Response: ' + response);
 
                     const account = {
                         token : response,
@@ -94,13 +90,10 @@ class AccountController {
                         }
                     };
         
-                    console.log(JSON.parse(JSON.stringify(account)));
-
                     // Server IP: https://185.176.41.137:3000/mastodon/register
                     fetch('http://<internal_IP>3000/mastodon/register', options)
                         .then(res => {
                             if (res.ok) {
-                                console.log('mastodon registration step 1 worked');
                                 return res.json();
                             } else {
                                 return Promise.reject(res.status);
@@ -108,7 +101,6 @@ class AccountController {
                         })
                         .then(
                             res => {
-                                console.log(res);
                                 try {
                                     this.setAuthUrl(res['authUrl']);
                                 } catch (error) {
@@ -139,7 +131,6 @@ class AccountController {
 
         loginController.checkUserStatus()
             .then(response => {
-                console.log('Response: ' + response);
 
                 const Code = {
                     authCode : code,
@@ -158,17 +149,11 @@ class AccountController {
                 fetch('http://<internal_IP>:3000/mastodon/register/auth', options)
                         .then(res => {
                             if (res.ok) {
-                                console.log('mastodon registration step 2 worked');
                                 return res.json();
                             } else {
                                 return Promise.reject(res.status);
                             }
                         })
-                        .then(
-                            res => {
-                                console.log(res);
-                            }
-                        )
                         .catch(
                             err => console.log('Error with message: ' + err)
                         );

@@ -28,7 +28,6 @@ class PostController {
             
             const userToken = loginController.checkUserStatus()
                 .then(response => {
-                    console.log('Response: ' + response);
 
                     let advertising;
                     if(isAdvertising['advertiseSwitch'] == true) {
@@ -44,7 +43,7 @@ class PostController {
                             imgUrl : url,
                             message : text,
                             tags : hash.split(' '),
-                            advertise : advertising,
+                            //advertise : advertising,
                         };
             
                         const options = {
@@ -56,19 +55,14 @@ class PostController {
                             }
                         };
 
-                        console.log(JSON.parse(JSON.stringify(options)));
-
                         return fetch('http://<own_internal_IP>:3000/steem/post', options)
                         .then(res => {
                             if (res.ok) {
-                                console.log('steemit posting worked');
-                                
                                 return res.json();
                             } else {
                                 return Promise.reject(res.status);
                             }
                         })
-                        .then(res => console.log(res))
                         .catch(err => console.log('Error with message:  ' + err));
                     }
 
@@ -90,8 +84,6 @@ class PostController {
                             }
                         };
 
-                        console.log(JSON.parse(JSON.stringify(options)));
-
                         return fetch('http://<internal_IP>:3000/mastodon/post', options)
                         .then(res => {
                             if (res.ok) {
@@ -106,7 +98,7 @@ class PostController {
                         .catch(err => console.log('Error with message:  ' + err));
                     }
 
-                    /* if(isEnabled['twitterSwitch'] == true) {
+                    if(isEnabled['twitterSwitch'] == true) {
                         const post = {
                             //title : postTitle,
                             //imgUrl : '',
@@ -124,21 +116,16 @@ class PostController {
                             }
                         };
 
-                        console.log(JSON.parse(JSON.stringify(options)));
-
                         return fetch('http://<internal_IP>:3000/twitter/post', options)
                         .then(res => {
                             if (res.ok) {
-                                console.log('twitter posting worked');
-                                
                                 return res.json();
                             } else {
                                 return Promise.reject(res.status);
                             }
                         })
-                        .then(res => console.log(res))
                         .catch(err => console.log('Error with message:  ' + err));
-                    } */
+                    }
                     return response;
                 });
 

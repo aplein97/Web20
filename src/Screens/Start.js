@@ -12,7 +12,6 @@ import {
 import { Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
-//Vom StartScreen zu Login oder CreateAccount
 
 const StartScreen = ({ navigation }) => {
   return (

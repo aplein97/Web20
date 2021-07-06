@@ -23,7 +23,6 @@ export default {
     marginTop: 80,
     marginBottom: 20,
     marginLeft: 15,
-    //textAlign: "center",
     color: "#272727",
   },
   loginFormView: {
@@ -85,16 +84,4 @@ export default {
     marginRight: 15,
   },
 
-  /* iconify: {
-    height: 55,
-    width: 55,
-    marginLeft: 10,
-    marginRight: 10,
-  }, 
-  input: {
-    height: 200,
-    width: 200,
-    margin: 12,
-    borderWidth: 1,
-  },*/
 };

@@ -8,19 +8,6 @@ import { TouchableOpacity } from "react-native";
 const ImageChooser = () => {
   const [image, setImage] = React.useState(null);
 
-  /* const useEffect(=() => {
-    (async () => {
-      if (Platform.OS !== "web") {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
-        }
-      }
-    })();
-  }, []);*/
-  
   const showImagePicker = async () => {
     // Ask the user for the permission to access the media library 
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
