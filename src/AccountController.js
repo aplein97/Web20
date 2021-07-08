@@ -21,6 +21,7 @@ class AccountController {
 
     constructor() {
         this.mastodonAuthUrl = '';
+        this.twitterAuthUrl = '';
     }
     
     // Send steemit data to API
@@ -50,7 +51,7 @@ class AccountController {
 
                     // Server IP: https://185.176.41.137:3000/steem/register
                     if(network == 'steemit') {
-                        return fetch('http://<internal-IP>:3000/steem/register', options)
+                        return fetch('https://185.176.41.137:3000/steem/register', options)
                             .then(res => {
                                 if (res.ok) {
                                     console.log('steemit account added');
@@ -97,7 +98,7 @@ class AccountController {
                     console.log(JSON.parse(JSON.stringify(account)));
 
                     // Server IP: https://185.176.41.137:3000/mastodon/register
-                    fetch('http://<internal_IP>3000/mastodon/register', options)
+                    fetch('https://185.176.41.137:3000/mastodon/register', options)
                         .then(res => {
                             if (res.ok) {
                                 console.log('mastodon registration step 1 worked');
@@ -134,6 +135,7 @@ class AccountController {
         return this.mastodonAuthUrl;
     }
 
+
     // Sending mastodon authentication code for linking account
     sendAuthCode = async (code) => {
 
@@ -155,7 +157,7 @@ class AccountController {
                 };
 
                 // Server IP: https://185.176.41.137:3000/mastodon/register/auth
-                fetch('http://<internal_IP>:3000/mastodon/register/auth', options)
+                fetch('https://185.176.41.137:3000/mastodon/register/auth', options)
                         .then(res => {
                             if (res.ok) {
                                 console.log('mastodon registration step 2 worked');
@@ -175,7 +177,79 @@ class AccountController {
             })
             .catch(err => console.log('Error with message: ' + err));
     }
+
+
+
+
+    //twitter functions
+
+
+    // Setter for Twitter authentication url
+    setTwitterAuthUrl(res) {
+        this.twitterAuthUrl = res;
+    }    
+
+    // Getter for Twitter authentication url
+    getTwitterAuthUrl() {
+        return this.twitterAuthUrl;
+    }
+
+
+    makeTwitterCall = async () => {
+        console.log("send twitter request for token");
+            
+            loginController.checkUserStatus()
+                .then(response => {
+                    console.log('Response: ' + response);
+
+                    const account = {
+                        token : response,
+                    };
+        
+                    const options = {
+                        method: 'POST',
+                        body: JSON.stringify(account),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + response,
+                        }
+                    };
+        
+                    console.log(JSON.parse(JSON.stringify(account)));
+
+                    // Server IP: https://185.176.41.137:3000/twitter/register
+                    fetch('http:///185.176.41.137:3000/twitter/register', options)
+                        .then(res => {
+                            if (res.ok) {
+                                console.log('twitter request token granted');
+                                return res.json();
+                            } else {
+                                return Promise.reject(res.status);
+                            }
+                        })
+                        .then(
+                            res => {
+                                console.log(res);
+                                try {
+                                    this.setTwitterAuthUrl(res['authUrl']);
+                                    console.log('URL SET');
+                                    console.log(this.getTwitterAuthUrl());
+                                } catch (error) {
+                                    console.log('Url couldn\'t be set!', error);
+                                }
+                            }
+                        )
+                        .catch(
+                            err => console.log('Error with message: ' + err)
+                        );
+                })
+                .catch(err => console.log('Error with message: ' + err));
+
+    }    
 }
+
+
+
 
 const accountController = new AccountController();
 export default accountController;
