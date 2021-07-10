@@ -29,6 +29,11 @@ const ManageAccountsScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("AddMastodon")}
           title="Mastodon-Account hinzufügen"
         />
+        <Button
+          buttonStyle={styles.accountButton}
+          onPress={() => navigation.navigate("AddTwitter")}
+          title="Twitter-Account hinzufügen"
+        />
       </View>
     </View>
   );

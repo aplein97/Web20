@@ -41,7 +41,7 @@ class LoginController {
 
             // Server IP: 185.176.41.137
             // Fetch mit Errorhandling
-            return fetch('http://<internal_IP>:3000/login', options)
+            return fetch('http:/192.168.2.102:3000/login', options)
                 .then(res => {
                     if (res.ok) {
                         console.log('login worked');

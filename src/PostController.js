@@ -58,7 +58,7 @@ class PostController {
 
                         console.log(JSON.parse(JSON.stringify(options)));
 
-                        return fetch('http://<own_internal_IP>:3000/steem/post', options)
+                        return fetch('https://185.176.41.137:3000/steem/post', options)
                         .then(res => {
                             if (res.ok) {
                                 console.log('steemit posting worked');
@@ -92,7 +92,7 @@ class PostController {
 
                         console.log(JSON.parse(JSON.stringify(options)));
 
-                        return fetch('http://<internal_IP>:3000/mastodon/post', options)
+                        return fetch('https://185.176.41.137:3000/mastodon/post', options)
                         .then(res => {
                             if (res.ok) {
                                 console.log('mastodon posting worked');
@@ -106,7 +106,7 @@ class PostController {
                         .catch(err => console.log('Error with message:  ' + err));
                     }
 
-                    /* if(isEnabled['twitterSwitch'] == true) {
+                    if(isEnabled['twitterSwitch'] == true) {
                         const post = {
                             //title : postTitle,
                             //imgUrl : '',
@@ -126,7 +126,7 @@ class PostController {
 
                         console.log(JSON.parse(JSON.stringify(options)));
 
-                        return fetch('http://<internal_IP>:3000/twitter/post', options)
+                        return fetch('http:///185.176.41.137:3000/twitter/post', options)
                         .then(res => {
                             if (res.ok) {
                                 console.log('twitter posting worked');
@@ -138,7 +138,7 @@ class PostController {
                         })
                         .then(res => console.log(res))
                         .catch(err => console.log('Error with message:  ' + err));
-                    } */
+                    } 
                     return response;
                 });
 
