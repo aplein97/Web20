@@ -35,8 +35,6 @@ class RegistrationController {
                 }
             };
 
-            // Server IP: https://185.176.41.137:3000/register
-            // Fetch mit Errorhandling
             return fetch('http:///185.176.41.137:3000/register', options)
                 .then(res => {
                     if (res.ok) {

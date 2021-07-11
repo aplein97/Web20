@@ -21,7 +21,6 @@ class PostController {
     
     // Send data to API
     makeAPICall(url, text, hash, postTitle, isEnabled, isAdvertising) {
-        console.log("send post data");
 
         let result = true;
         if (result === true) {
@@ -54,7 +53,6 @@ class PostController {
                             }
                         };
                       
-                        // Server IP: https://185.176.41.137:3000/steem/post
                         fetch('http://185.176.41.137:3000/steem/post', options)
                             .then(res => {
                                 if (res.ok) {
@@ -87,8 +85,6 @@ class PostController {
                         fetch('http://185.176.41.137:3000/mastodon/post', options)
                             .then(res => {
                                 if (res.ok) {
-                                    console.log('mastodon posting worked');
-                                    
                                     return res.json();
                                 } else {
                                     return Promise.reject(res.status);
