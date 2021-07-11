@@ -17,8 +17,6 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
 import loginController from "../LoginController";
 
-//von Login zu ManageAccounts oder Home
-
 const LoginScreen = ({ navigation }) => {
 
   const [Mail, setMail] = React.useState("");
@@ -32,7 +30,6 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLoginSuccess = () => {
     resetForm();
-    //navigation.immediatelyResetStack(['Home'], 0);
     navigation.navigate("Post");
   }
 

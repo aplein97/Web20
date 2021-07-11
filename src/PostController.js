@@ -26,9 +26,8 @@ class PostController {
         let result = true;
         if (result === true) {
             
-            const userToken = loginController.checkUserStatus()
+            loginController.checkUserStatus()
                 .then(response => {
-                    console.log('Response: ' + response);
 
                     let advertising;
                     if(isAdvertising['advertiseSwitch'] == true) {
@@ -37,14 +36,13 @@ class PostController {
                         advertising = false;
                     }
 
-                    // Server IP: https://185.176.41.137:3000/steem/post
                     if(isEnabled['steemitSwitch'] == true) {
                         const post = {
                             title : postTitle,
                             imgUrl : url,
                             message : text,
                             tags : hash.split(' '),
-                            advertise : advertising,
+                            //advertise : advertising,
                         };
             
                         const options = {
@@ -55,21 +53,17 @@ class PostController {
                                 'Authorization': 'Bearer ' + response
                             }
                         };
-
-                        console.log(JSON.parse(JSON.stringify(options)));
-
-                        return fetch('https://185.176.41.137:3000/steem/post', options)
-                        .then(res => {
-                            if (res.ok) {
-                                console.log('steemit posting worked');
-                                
-                                return res.json();
-                            } else {
-                                return Promise.reject(res.status);
-                            }
-                        })
-                        .then(res => console.log(res))
-                        .catch(err => console.log('Error with message:  ' + err));
+                      
+                        // Server IP: https://185.176.41.137:3000/steem/post
+                        fetch('http://185.176.41.137:3000/steem/post', options)
+                            .then(res => {
+                                if (res.ok) {
+                                    return res.json();
+                                } else {
+                                    return Promise.reject(res.status);
+                                }
+                            })
+                            .catch(err => console.log('Error with message:  ' + err));
                     }
 
                     if(isEnabled['mastodonSwitch'] == true) {
@@ -90,20 +84,18 @@ class PostController {
                             }
                         };
 
-                        console.log(JSON.parse(JSON.stringify(options)));
+                        fetch('http://185.176.41.137:3000/mastodon/post', options)
+                            .then(res => {
+                                if (res.ok) {
+                                    console.log('mastodon posting worked');
+                                    
+                                    return res.json();
+                                } else {
+                                    return Promise.reject(res.status);
+                                }
+                            })
+                            .catch(err => console.log('Error with message:  ' + err));
 
-                        return fetch('https://185.176.41.137:3000/mastodon/post', options)
-                        .then(res => {
-                            if (res.ok) {
-                                console.log('mastodon posting worked');
-                                
-                                return res.json();
-                            } else {
-                                return Promise.reject(res.status);
-                            }
-                        })
-                        .then(res => console.log(res))
-                        .catch(err => console.log('Error with message:  ' + err));
                     }
 
                     if(isEnabled['twitterSwitch'] == true) {
@@ -124,21 +116,17 @@ class PostController {
                             }
                         };
 
-                        console.log(JSON.parse(JSON.stringify(options)));
+                        fetch('http://185.176.41.137:3000/twitter/post', options)
+                            .then(res => {
+                                if (res.ok) {
+                                    return res.json();
+                                } else {
+                                    return Promise.reject(res.status);
+                                }
+                            })
+                            .catch(err => console.log('Error with message:  ' + err));
+                    }
 
-                        return fetch('http:///185.176.41.137:3000/twitter/post', options)
-                        .then(res => {
-                            if (res.ok) {
-                                console.log('twitter posting worked');
-                                
-                                return res.json();
-                            } else {
-                                return Promise.reject(res.status);
-                            }
-                        })
-                        .then(res => console.log(res))
-                        .catch(err => console.log('Error with message:  ' + err));
-                    } 
                     return response;
                 });
 

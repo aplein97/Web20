@@ -11,8 +11,6 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native";
 
-//const appId = "1047121222092614"
-
 const Settings = ({ navigation }) => {
   return (
     <ScrollView style={{ backgroundColor: "#ffffff", }}>

@@ -8,8 +8,6 @@ function CustomNavigationBar({ navigation, previous }) {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  console.log(ScreenStack.name);
-
   return (
     <Appbar.Header style={{backgroundColor: '#ffffff', boxShadow: "none", marginTop: 7,}}>
       {previous & Appbar.name != 'Logout' ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
@@ -18,7 +16,6 @@ function CustomNavigationBar({ navigation, previous }) {
         <Menu
           visible={visible}
           onDismiss={closeMenu}
-          //showMenuIconButton={ScreenStack.name == 'Login'? false : true}
           anchor={
             <Appbar.Action icon="menu" color="#272727" onPress={openMenu} />
           }

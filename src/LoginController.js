@@ -20,7 +20,6 @@ class LoginController {
 
     // Send data to API
     makeAPICall(mail, password) {
-        console.log("send data");
 
         let result = this.validateFields(mail, password);
         if (result === true) {
@@ -37,14 +36,11 @@ class LoginController {
                 }
             }
 
-            console.log(JSON.parse(JSON.stringify(user)));
-
             // Server IP: 185.176.41.137
             // Fetch mit Errorhandling
-            return fetch('http:/192.168.2.102:3000/login', options)
+            return fetch('http:/185.176.41.137:3000/login', options)
                 .then(res => {
                     if (res.ok) {
-                        console.log('login worked');
                         return res.json();
                     } else {
                         showMessage({
@@ -58,7 +54,6 @@ class LoginController {
                 })
                 .then(
                     res => {
-                        console.log(res);
                         try {
                             this.setUserToken(res['token']);
                         } catch (error) {
@@ -79,7 +74,6 @@ class LoginController {
         var reMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if(mail == '' || password == '') {
-            console.log('empty input fields');
             showMessage({
                 message: "Bitte fülle alle Felder aus.",
                 type: "danger",
@@ -88,12 +82,11 @@ class LoginController {
             result = false;
         } else {
             if (reMail.test(mail) === false) {
-                console.log('invalid email address');
                 showMessage({
-                message: "Keine gültige E-Mail-Adresse!",
-                description: "Bitte überprüfe den Input.",
-                type: "danger",
-                floating: "true",
+                    message: "Keine gültige E-Mail-Adresse!",
+                    description: "Bitte überprüfe den Input.",
+                    type: "danger",
+                    floating: "true",
                 });
                 result = false;
             } 
@@ -117,7 +110,6 @@ class LoginController {
     }
 
     setUserToken = async(res) => {
-        console.log('working');
         const key = 'token';
         const password = res;
       
