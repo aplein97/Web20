@@ -26,7 +26,7 @@ class PostController {
         let result = true;
         if (result === true) {
             
-            const userToken = loginController.checkUserStatus()
+            loginController.checkUserStatus()
                 .then(response => {
 
                     let advertising;
@@ -36,7 +36,6 @@ class PostController {
                         advertising = false;
                     }
 
-                    // Server IP: https://185.176.41.137:3000/steem/post
                     if(isEnabled['steemitSwitch'] == true) {
                         const post = {
                             title : postTitle,
@@ -55,15 +54,16 @@ class PostController {
                             }
                         };
 
-                        return fetch('http://<own_internal_IP>:3000/steem/post', options)
-                        .then(res => {
-                            if (res.ok) {
-                                return res.json();
-                            } else {
-                                return Promise.reject(res.status);
-                            }
-                        })
-                        .catch(err => console.log('Error with message:  ' + err));
+                        // Server IP: https://185.176.41.137:3000/steem/post
+                        fetch('http://<own_internal_IP>:3000/steem/post', options)
+                            .then(res => {
+                                if (res.ok) {
+                                    return res.json();
+                                } else {
+                                    return Promise.reject(res.status);
+                                }
+                            })
+                            .catch(err => console.log('Error with message:  ' + err));
                     }
 
                     if(isEnabled['mastodonSwitch'] == true) {
@@ -84,18 +84,17 @@ class PostController {
                             }
                         };
 
-                        return fetch('http://<internal_IP>:3000/mastodon/post', options)
-                        .then(res => {
-                            if (res.ok) {
-                                console.log('mastodon posting worked');
-                                
-                                return res.json();
-                            } else {
-                                return Promise.reject(res.status);
-                            }
-                        })
-                        .then(res => console.log(res))
-                        .catch(err => console.log('Error with message:  ' + err));
+                        fetch('http://<internal_IP>:3000/mastodon/post', options)
+                            .then(res => {
+                                if (res.ok) {
+                                    console.log('mastodon posting worked');
+                                    
+                                    return res.json();
+                                } else {
+                                    return Promise.reject(res.status);
+                                }
+                            })
+                            .catch(err => console.log('Error with message:  ' + err));
                     }
 
                     if(isEnabled['twitterSwitch'] == true) {
@@ -116,15 +115,15 @@ class PostController {
                             }
                         };
 
-                        return fetch('http://<internal_IP>:3000/twitter/post', options)
-                        .then(res => {
-                            if (res.ok) {
-                                return res.json();
-                            } else {
-                                return Promise.reject(res.status);
-                            }
-                        })
-                        .catch(err => console.log('Error with message:  ' + err));
+                        fetch('http://<internal_IP>:3000/twitter/post', options)
+                            .then(res => {
+                                if (res.ok) {
+                                    return res.json();
+                                } else {
+                                    return Promise.reject(res.status);
+                                }
+                            })
+                            .catch(err => console.log('Error with message:  ' + err));
                     }
                     return response;
                 });
