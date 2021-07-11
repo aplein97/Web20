@@ -53,9 +53,9 @@ class PostController {
                                 'Authorization': 'Bearer ' + response
                             }
                         };
-
+                      
                         // Server IP: https://185.176.41.137:3000/steem/post
-                        fetch('http://<own_internal_IP>:3000/steem/post', options)
+                        fetch('http://185.176.41.137:3000/steem/post', options)
                             .then(res => {
                                 if (res.ok) {
                                     return res.json();
@@ -84,7 +84,7 @@ class PostController {
                             }
                         };
 
-                        fetch('http://<internal_IP>:3000/mastodon/post', options)
+                        fetch('http://185.176.41.137:3000/mastodon/post', options)
                             .then(res => {
                                 if (res.ok) {
                                     console.log('mastodon posting worked');
@@ -95,6 +95,7 @@ class PostController {
                                 }
                             })
                             .catch(err => console.log('Error with message:  ' + err));
+
                     }
 
                     if(isEnabled['twitterSwitch'] == true) {
@@ -115,7 +116,7 @@ class PostController {
                             }
                         };
 
-                        fetch('http://<internal_IP>:3000/twitter/post', options)
+                        fetch('http://185.176.41.137:3000/twitter/post', options)
                             .then(res => {
                                 if (res.ok) {
                                     return res.json();
@@ -125,6 +126,7 @@ class PostController {
                             })
                             .catch(err => console.log('Error with message:  ' + err));
                     }
+
                     return response;
                 });
 

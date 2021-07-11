@@ -13,6 +13,7 @@ import Settings from "./src/Screens/settings";
 import HomeScreen from "./src/Screens/Home";
 import AddSteemitAccount from "./src/Screens/addSteemitAccount";
 import AddMastodonAccount from "./src/Screens/addMastodonAccount";
+import AddTwitterAccount from "./src/Screens/addTwitterAccount";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -76,6 +77,11 @@ const App = () => {
           <Stack.Screen
             name="AddMastodon"
             component={AddMastodonAccount}
+            //options={{ title: 'Welcome' }}
+          />
+          <Stack.Screen
+            name="AddTwitter"
+            component={AddTwitterAccount}
             //options={{ title: 'Welcome' }}
           />
         </Stack.Navigator>
