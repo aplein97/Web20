@@ -34,9 +34,7 @@ const AddTwitterAccount = ({ navigation }) => {
       setShowfailRequest(true);
   }
 
-
-
-    // Render view for authentication link
+  // Render view for authentication link
   const renderUrl = () => {
     if(showUrl == true) {
       return (
@@ -55,16 +53,14 @@ const AddTwitterAccount = ({ navigation }) => {
     const renderFailedRequest = () => {
       if(setShowfailedRequest == true) {
         return (
-            
           <Text style={ { fontSize: 15 } }>
             Try again!
           </Text>
-            
-          );
-        } else {
-          return null;
-        }
+        );
+      } else {
+        return null;
       }
+    }
 
   // Render view
   return (

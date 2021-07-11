@@ -26,7 +26,6 @@ class AccountController {
     
     // Send steemit data to API
     makeAPICall(user, password, network) {
-        console.log("send steemit account data");
         
         let result = true;
         if (result === true) {
@@ -47,9 +46,6 @@ class AccountController {
                         }
                     };
         
-                    console.log(JSON.parse(JSON.stringify(account)));
-
-                    // Server IP: https://185.176.41.137:3000/steem/register
                     if(network == 'steemit') {
                         return fetch('https://185.176.41.137:3000/steem/register', options)
                             .then(res => {
@@ -72,7 +68,6 @@ class AccountController {
 
     // Send mastodon data to API
     makeMastodonCall = async (url) => {
-        console.log("send mastodon instance url");
             
             loginController.checkUserStatus()
                 .then(response => {
@@ -91,7 +86,6 @@ class AccountController {
                         }
                     };
         
-                    // Server IP: https://185.176.41.137:3000/mastodon/register
                     fetch('https://185.176.41.137:3000/mastodon/register', options)
                         .then(res => {
                             if (res.ok) {
@@ -147,7 +141,6 @@ class AccountController {
                     }
                 };
 
-                // Server IP: https://185.176.41.137:3000/mastodon/register/auth
                 fetch('https://185.176.41.137:3000/mastodon/register/auth', options)
                         .then(res => {
                             if (res.ok) {
@@ -163,11 +156,7 @@ class AccountController {
             .catch(err => console.log('Error with message: ' + err));
     }
 
-
-
-
-    //twitter functions
-
+    ////////////twitter functions
 
     // Setter for Twitter authentication url
     setTwitterAuthUrl(res) {
@@ -179,13 +168,10 @@ class AccountController {
         return this.twitterAuthUrl;
     }
 
-
     makeTwitterCall = async () => {
-        console.log("send twitter request for token");
             
             loginController.checkUserStatus()
                 .then(response => {
-                    console.log('Response: ' + response);
 
                     const account = {
                         token : response,
@@ -200,13 +186,9 @@ class AccountController {
                         }
                     };
         
-                    console.log(JSON.parse(JSON.stringify(account)));
-
-                    // Server IP: https://185.176.41.137:3000/twitter/register
                     fetch('http:///185.176.41.137:3000/twitter/register', options)
                         .then(res => {
                             if (res.ok) {
-                                console.log('twitter request token granted');
                                 return res.json();
                             } else {
                                 return Promise.reject(res.status);
@@ -214,11 +196,8 @@ class AccountController {
                         })
                         .then(
                             res => {
-                                console.log(res);
                                 try {
                                     this.setTwitterAuthUrl(res['authUrl']);
-                                    console.log('URL SET');
-                                    console.log(this.getTwitterAuthUrl());
                                 } catch (error) {
                                     console.log('Url couldn\'t be set!', error);
                                 }
@@ -232,8 +211,6 @@ class AccountController {
 
     }    
 }
-
-
 
 
 const accountController = new AccountController();
