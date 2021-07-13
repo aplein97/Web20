@@ -1,4 +1,5 @@
-Das ist das Frontend Repository von Gruppe 2.
+Das ist das Frontend Repository von Gruppe 4.
+
 Link zum Backend: https://github.com/andersenhenrik/Web20Backend
 
 # How to start
